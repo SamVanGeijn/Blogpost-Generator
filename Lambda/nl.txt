@@ -1,0 +1,763 @@
+Als consultant heb ik de afgelopen jaren aan verschillende softwareprojecten gewerkt
+Hierdoor heb ik kennis gemaakt met hele uiteenlopende bedrijven
+Van startups en grote softwarebedrijven tot bedrijven die een softwareproject naast hun core business runnen
+Ik heb geleerd dat software ontwikkelen op veel verschillende manieren kan
+Ook ben ik nog geen projecten tegen gekomen die precies hetzelfde zijn
+Doordat ik aan veel verschillende projecten werk, loop ik tegen wat dingen aan
+Om te kunnen ontwikkelen wil ik de applicatie en dependencies lokaal kunnen draaien
+Vaak is er een beschreven ‘Build and run’ pagina op Confluence, of ergens in een Dropbox map
+Deze pagina legt uit hoe de dependencies op de development machine geïnstalleerd moet worden
+Toch ben ik al snel uren bezig om een ontwikkelomgeving de eerste keer op te zetten
+Wat hierbij bijvoorbeeld mis kan gaan is: De “Build and run” is geschreven voor Windows, in macOS werkt het dan net weer iets anders
+Een ander project waar je aan werkt maakt gebruik van dezelfde dependency maar dan net een andere versie die niet zomaar verhoogd kan worden
+Het project gebruikt bijvoorbeeld SQL server en dat draait niet op macOs
+Als de ontwikkelomgeving opgezet is voor het project moet ik mijn OS kunnen updaten en eenvoudig kunnen switchen tussen projecten
+Dit verliep ook niet altijd soepel
+Kan dit niet eenvoudiger
+Het blijkt dat er tools zijn die ons leven hier wat makkelijker kunnen maken en Docker is daar één van
+Docker Docker is open-source software waarmee het mogelijk wordt een applicatie in een lichtgewicht en verplaatsbare container te verpakken
+Het concept is hetzelfde als een virtual machine maar het is veel lichter en sneller
+Dit komt omdat een docker container gebruik maakt besturingssysteem en dependencies die op de host beschikbaar zijn
+Hierdoor kan de container zelf veel kleiner gehouden worden
+Een container heeft een geïsoleerde environment, hierdoor ontstaan er geen conflicten met dependencies op de host of met andere containers
+Een container wordt opgebouwd op basis van een image
+Dat is de “blauwdruk” van de container
+Er zijn veel images beschikbaar, deze zijn te vinden in Docker Hub
+Zo zijn er bijvoorbeeld images voor frameworks (bijv
+Angular, Spring boot en Django), databases (mongoDB, MySQL en PostgreSQL), servers (Tomcat en Nginx) maar ook complete applicaties als SonarQube, Jenkins en Sentry
+Er zijn al veel images beschikbaar
+Je kunt bijna voor alles wat je nodig hebt voor het ontwikkelen, bouwen en draaien van een applicatie een container gebruiken
+Stel je applicatie heeft een PostreSQL database nodig
+Die kun je lokaal installeren… maar je kunt hier ook een container voor opstarten
+Het starten van een container kan met één commando
+Met het commando hieronder starten we een PostreSQL database: sql $ docker run --name postgres-container -e POSTGRES_PASSWORD=mysecretpassword -d postgres In het commando hierboven wordt een container gemaakt met de laatste versie van postgres
+Wanneer het postgres image lokaal nog niet bestaat zal het image van Docker Hub gedownload worden
+De run opties die in het commando worden gebruikt, worden hieronder uitgelegd: –name geeft de container een naam zodat je hem later makkelijker kunt terugvinden
+-e zet de environment variabele als key=value -d runt container in de achtergrond (detached mode) Door middel van run opties in het commando is het mogelijk de database en container te configureren
+Met één commando draait er dus een PostreSQL database waar je applicatie mee kan verbinden
+Als in het commando veel geconfigureerd moet worden, wordt dit een complex commando
+Je kunt je voorstellen dat een applicatie meerdere dependencies en dus containers nodig heeft
+Om dit proces te vereenvoudigen gebruiken we Docker Compose
+Docker Compose Docker Compose is een tool om containers te definiëren en runnen
+Dit gebeurd via een docker-compose.yml file
+In het bestand worden alle services beschreven die gestart moeten worden, de configuratie en de afhankelijkheden tussen de containers
+De postgres container starten doen we op de volgende manier: sql version: '3.1' services: db: image: postgres restart: always environment: POSTGRES_PASSWORD: mysecretpassword De configuratie van de container moet nog steeds beschreven worden maar dit gebeurd nu niet in het commando maar in een Compose file
+De Compose file zetten we in version control zodat alle teamleden het kunnen gebruiken
+Nu kunnen we alle services starten door middel van één commando: sql $ docker-compose up stoppen kan door middel van: sql $ docker-compose down Tot slot In het voorbeeld hierboven wordt alleen het opzetten van een database beschreven
+Dit is in sommige gevallen al voldoende
+Docker is een krachtige tool maar dat betekent niet dat je niet eenvoudig kunt beginnen door bijvoorbeeld alleen je databases in Docker te draaien
+Je kunt dit later uitbreiden met meerdere containers bijvoorbeeld voor caching of het serveren van je content over http
+Het is zelfs mogelijk om de applicatie niet lokaal maar in bijvoorbeeld een Gradle container te laten bouwen
+Je kunt het project zo opzetten dat Docker, Docker Compose en je favoriete IDE de enige dependencies zijn die je machine nodig heeft en dat je met één commando de hele ontwikkelomgeving hebt draaien
+Ik ben pas sinds kort bekend met Docker, maar het heeft mijn leven als ontwikkelaar in elk geval al een stuk makkelijker gemaakt
+Probeer het eens uit en misschien kan het ook wat voor jou development process betekenenAfgelopen vakantie was ik in de Jura in Frankrijk en in dit bergachtige gebied wordt je meteen een jaar of 5 terug gezet: Een week met 3G
+Ik kan mij de overgang van 2g naar 3G nog wel herinneren: Wat kon je toen ineens snel browsen op je mobiel
+Ook werd het gebruik van een hotspot ineens bruikbaar
+Tech went snel, de beleving van mensen ook: verwachtingen zijn snel bijgesteld naar een nieuwe 0-norm
+Zo ook bij mij: wat duurde het lang voor dat de gifjes van /r/HighQualityGifs laadden zeg! Zo ook met werk: wisselen van baan, je nieuwe plek zien te vinden
+Jezelf moeten bewijzen/jezelf waar maken
+Waardering zoeken en vinden
+Maar ook afdwingen: Claim je successen
+Je komt in een bestaand of nieuw team terecht en je moet leren omgaan met de karakters van je teamgenoten en zij met die van jou
+Dit betekent dat er aan weerszijden aangepast moet worden om de samenwerking te laten werken
+Als degene die er nieuw bij komt ben je al snel geneigd jezelf aan te passen om de heersende synergie zo min mogelijk te verstoren
+Echter, moet je wel van bewust blijven dat jíj ook je plek moet gaan vinden
+Mijn advies: Pak beetje bij beetje de ruimte en zoek de grenzen op
+Dit kan tot irritaties leiden of tot een sfeer die niet altijd wenselijk is
+Voor degenen met kinderen is dit wellicht herkenbaar: Een kind is continu bezig om de grenzen op te zoeken waarin zij/hij zich in kan bewegen
+Immers, een kind is ook bezig een plek te vinden in de heersende sociale orde: het gezin, school en uiteindelijk de samenleving
+Het ideaalst is je plek zo snel mogelijk te vinden het team, iedereen zal dan al snel merken dat de 0-norm bijgesteld is: Business as usual
+Laat er nu net binnen het meest gebruikte softwareontwikkelmethodiek een onderdeel zijn dat hier speciaal voor bedoeld lijkt te zijn: De retrospective
+Om de neuzen bij iedereen dezelfde kant op te krijgen een definitie zoals deze te vinden is op agilescrumgroep.nl: “Een retrospective is een standaard onderdeel van het Scrum framework
+Aan het einde van een sprint reflecteert het team – los van de inhoud – op het teamproces, hun werkwijze, en de onderlinge relaties.” Bovenstaande quote is in mijn ogen een mooie betekenis van de retrospective
+Techneuten als-we-zijn focussen we ons al snel op de onderwerpen waar we vertrouwd in zijn: proces en werkwijze
+Daarbij zie ik vaak dat de onderlinge relaties genegeerd worden, want laten we eerlijk wezen: We zijn als IT’ers uiteraard wel een beetje sociaal gehandicapt
+Synergie Echter, is dit een houding die niet bijdraagt aan de synergie in het team
+Schroom niet om gevoelige onderwerpen aan te kaarten tijdens de retrospective
+Dit moment van evaluatie zou een sfeer van veiligheid moeten hebben waarin dit mogelijk is
+Het is in mijn ogen een essentieel onderdeel van het functioneren van je team: Om elkaar eens goed te waarheid te vertellen, in positieve én negatieve zin, zal 100% bijdragen aan de onderlinge relaties
+Let wel dat er altijd een mate van respect in acht genomen moet worden, het is immers niet te bedoeling om een ander compleet af te branden
+Je zult namelijk na de retrospective gewoon weer met elkaar samen moeten werken
+Spreek dus uit waar je mee zit en krop het niet op: het zal tussen jullie in gaan staan
+Ik hoop wel dat jullie begrijpen dat er niet op alle slakken zout gelegd hoeft te worden en dat het niet een knuffelclubje hoeft te worden
+Terugkomend op beginnen in een nieuw team: Gebruik de retrospective waar hij voor bedoeld is
+Benoem wat je prettig vindt in het nieuw team en waar je tegen aan loopt
+Door in ieder geval uit te spreken waar je mee zit kan de lucht al een heel eind klaren
+Dit zal het vinden van je plek in het team bevorderen en andere team genoten zullen je serieus nemen omdat je laat zien dat je bezig bent met het verbeteren van je zelf én dat je oog hebt voor het grotere geheel: Het team
+Het is belangrijk een modus te vinden waarin iedereen kan functioneren, zodat je trots kunt zijn op wat je doet en de klant je als professional zult zien
+Iets waar je werkgever uiteindelijk ook weer gelukkig van wordt 😉Bij de aankondiging van elke tool die het leven van de ontwikkelaar makkelijker maakt, hoor je het zelfde cliché: Developers should spend their time coding, not fighting their tools
+Vervolgens komt er dan een uitleg dat we ons moeten focussen op functionaliteit en dat de rest zo veel mogelijk geautomatiseerd moet worden
+In de praktijk zie ik helaas nog te vaak dat we geen (efficiënt) gebruik maken van de middelen die we hebben
+En dat is jammer, want een goede programmeur is lui, ongeduldig en trots
+In een serie blogposts wil ik hier wat dieper op ingaan
+Te beginnen met: continuous delivery van mobiele applicaties
+Ja, maar… De meest gebruikte argumenten die ik hoor wanneer ik vraag waarom er geen continuous integration (CI) of continuous delivery (CD) is ingericht zijn: “Ja maar, het gaat handmatig ook prima.” “Ja maar, het inrichten van een CD-omgeving loont niet bij een klein team want teveel overhead.” ..het gaat handmatig ook prima Als voor een klant een app ontwikkeld wordt, begint dit vaak met een proof of concept
+Tijdens deze fase is het vaak logisch dat er geen volledige CI/CD omgeving wordt ingericht
+Echter, als het dan toch een serieus project dreigt te worden moet dit alsnog zo snel mogelijk gebeuren
+Omdat deze blog gaat over continuous delivery, laat ik de argumentatie voor Continuous integration graag over aan Martin Fowler
+Wat betreft CD zijn dit volgens mij de belangrijkste argumenten: Er is bij handwerk altijd kans op menselijke fouten
+Hoe zorgvuldig je ook te werk gaat, er is altijd kans dat je per ongeluk de verkeerde app hebt geüploadet
+Of dat die ene app toch niet alfa naar bèta had mogen gaan
+Er is een veel snellere feedback loop
+Zowel van de klant over de tussentijds opgeleverde functionaliteit als van de app store zelf (zo kan het bij Apple nog wel eens gebeuren dat er pas ná de het uploaden van de app nog feedback komt)
+Het kost tijd om handmatig te uploaden
+Uiteraard valt het wel mee om een keer een APK te uploaden in de Android-store
+Maar als je dit elke week of elke twee weken doet, telt het stiekem aardig op
+En dat laatste item is een mooi bruggetje naar het volgende argument
+…het inrichten van een CD omgeving loont niet bij een klein team want te veel overhead Dit is denk ik de meest hardnekkige mythe
+Een manier om die onderuit te halen is om te laten zien hoe makkelijk het is om continuous delivery in te richten voor een Android-app
+Dit ga ik doen met behulp van Fastlane
+Fastlane 🚀 Fastlane is een combinatie van verschillende open source tools waarmee een app gebouwd, getest en released kan worden
+Fastlane biedt support voor zowel Android als iOS en heeft integraties met verschillende build servers als Jenkins, CircleCi, Bitrise, Microsoft Visual Studio Team Services (VSTS) en Travis CI
+De configuraties die nodig zijn voor het bouwen, testen en uitrollen van de applicatie komen te staan in een zogenaamde Fastfile
+Hierin staan verschillende lanes gedefinieerd
+Een lane beschrijft de stappen die uitgevoerd moeten worden in een bepaalde situatie
+Hier een voorbeeld van een Fastfile waarin een release-build van een Android-app wordt gedaan, geüploadet wordt naar de bèta-groep en vervolgens een bericht plaatst in een Slack-kanaal
+java lane :beta do gradle(task: 'assemble', build_type: 'Release') upload_to_play_store(track: 'beta') slack(message: 'Successfully distributed a new beta build') end Om de app daadwerkelijk te kunnen deployen naar de app-store is er extra configuratie nodig
+Deze geef je aan door (na het installeren van Fastlane) het volgende command uit te voeren in de root van je project: java Fastlane init Tijdens het initiëren herkent fastlane dat het om een Android-app gaat en worden er om 2 dingen gevraagd: De package-naam van de app De ‘secret json file locatie’
+Deze is te downloaden vanaf de playstore console
+Na het doorlopen van de initialisatie ben je klaar om uit te rollen! Om de bovenstaande beta-lane uit te voeren, moet je het volgende command invoeren: java Fastlane beta Als je dit dan vervolgens integreert in je CI-systeem kan je precies aangeven in welke situatie welke lane uitgevoerd moet worden
+Plugins Naast veel standaard functionaliteit, zoals we hierboven hebben gezien, zijn er ook nog honderden plugins beschikbaar die het CI-proces makkelijker maken
+Zo is er bijvoorbeeld een plugin die de Android version code ophoogt
+Ook is er met behulp van een plugin support voor Cordova
+En voor iOS
+Ook iOS-apps kunnen met Fastlane gebouwd en deployed worden naar iTunes connect
+Om dit op te zetten moeten deze instructies gevolgd worden
+Iets waar veel ontwikkelaars tegen aan lopen bij het bouwen van een iOS-app is de code signing
+Fastlane weet dit, en geeft hier extra aandacht aan door verschillende strategieën aan te bieden voor code signing
+Tot slot Zoals je ziet, is de investering klein en de winst groot
+Dus ik zou zeggen: ga er mee aan de slag, kaart het aan bij je project manager of klant
+En het hoeft niet met een big bang
+Begin bijvoorbeeld met het automatisch deployen naar je testomgeving
+Als je dan wat meer gevoel bij het proces krijgt kan je denken aan een volgende stap, zoals automatisch promoten naar bèta of productieTijdens ontwikkeling van een Angular 5 applicatie voor Android en iOS kwam ik erachter dat Angular soms de view niet update na een change
+In dit geval gebeurde het op het moment dat ik de taal van het device opvroeg met behulp van een Cordova language plugin
+In dit artikel probeer ik te beschrijven hoe ik tot een oplossing kwam
+Daarnaast hoop ik context te kunnen geven waaruit blijkt dat dit logisch en voorspelbaar gedrag is
+Onderzoek Toen ik begon met Angular 2 hoorde ik verschillende geruchten dat Angular 2 geen $scope meer heeft
+En dat dat veel problemen zou oplossen die komen kijken bij het gebruik van $scope.$watch en $scope.$apply
+In Angular is dan weliswaar geen $scope meer, maar er moet natuurlijk nog steeds iets vergelijkbaars met de digest loop van AngularJS zijn
+Angular moet nog steeds weten wanneer de view geüpdatet moet worden na een wijziging
+Om te weten hoe Angular werkt, ben ik begonnen bij de tour of heroes
+Hoe de digest loop in Angular werkt wordt in deze tutorial niet besproken
+Tijdens deze tutorial kom je geen situatie tegen waarin de view niet wordt geüpdatet
+Nergens wordt überhaupt een digest loop of iets dergelijks genoemd
+Hierdoor, samen met de geruchten dat er geen $scope meer is in Angular, werd ik op het verkeerde been gezet; door niet meer te zoeken in de richting van een “digest loop”
+Zoeken naar ‘waarom Angular de view niet update’ bracht mij op allerlei forums die niet veel meer informatie bevatten dan een aantal Ionic problemen
+De beschreven problemen leken niks te maken te hebben met het probleem dat ik ondervond; het niet updaten van de DOM na het ophalen van de ingestelde taal van een device
+Totdat ik ergens iets las over Zone.js
+Angular blijkt het moment van renderen van de view te bepalen met behulp van Zone.js
+Zelfs tijdens het schrijven van dit artikel heb ik moeite met het vinden van de juiste informatie over hoe Zone.js nu precies werkt met Angular
+Wat is/doet Zone.js
+Zone.js is een onafhankelijke npm module die los van Angular gebruikt kan worden
+Zone.js biedt een execution context voor asynchrone taken
+Denk hierbij aan DOM events, XMLHttpRequests, EventEmitters, setTimeout, setInterval, requestAnimationFrame, Promises en meer
+Zone.js biedt de mogelijkheid een groep asynchrone taken binnen een eigen context (Zone) te plaatsen
+Met deze informatie bedacht ik, dat als Angular de view niet update na een wijziging, dit wellicht niet binnen de Angular Zone was gebeurd
+M.a.w
+Angular weet niet dat er iets is gewijzigd
+Hoe werkt dit dan precies
+Aanname Angular gebruikt dus Zone.js om het moment te bepalen wanneer de view geüpdatet moet worden
+Zou het dan kunnen zijn dat Angular de Zone.js context (NgZone) is verloren op het moment dat met een externe plugin (in mijn geval de Cordova language plugin) een asynchrone call wordt geresolved
+Kan het zijn dat de language plugin van Cordova ervoor zorgt dat wat Angular opvraagt niet geresolved wordt binnen de Angular Zone
+Oplossing Nu ik een idee had wat er aan de hand zou kunnen zijn, kon ik gericht zoeken hoe ik deze aanname kan reproduceren en oplossen
+Zo kwam ik op het volgende artikel over zones en change-detection in Ionic en Angular
+Hoe kunnen we er nu voor zorgen dat Cordova het opvragen van de ingestelde taal van het device wel resolvet binnen de Angular Zone, zodat Angular weet dat de view geüpdatet moet worden
+Het volgende code voorbeeld laat een call zien waarmee de taal wordt opgehaald
+In het voorbeeld wordt dit gedaan met Cordova, maar dit voorbeeld representeert elke actie die buiten de Angular Zone wordt gedaan
+javascript function getDeviceLanguage() { return new Promise(function (resolve) { cordova.globalization.getPreferredLanguage(function (language) { resolve(language); }); }); } Of in TypeScript javascript getDeviceLanguage() { return new Promise(resolve => { cordova.globalization.getPreferredLanguage(language => resolve(language)); }); } in een Angular component zou dit er als volgt uit kunnen zien: javascript import { Component, OnInit } from '@angular/core'; @Component({ selector: 'app-root', templateUrl: './app.component.html' }) export class AppComponent implements OnInit{ language; getDeviceLanguage() { return new Promise(resolve => { cordova.globalization.getPreferredLanguage(language => resolve(language)); }); } ngOnInit() { getDeviceLanguage().then(language => this.language = language); } } Wat moeten we doen om Angular te laten weten dat de view geüpdatet moet worden als Cordova terug komt met de taal
+De code die binnen Angular Zone moet worden uitgevoerd moet worden gewrapt door slechts 1 functie: javascript this.zone.run(); In de component zou dit er als volgt uitzien; javascript import { Component, OnInit, NgZone } from '@angular/core'; @Component({ selector: 'app-root', templateUrl: './app.component.html' }) export class AppComponent implements OnInit{ language; constructor(private zone: NgZone){} getDeviceLanguage() { return new Promise(resolve => { cordova.globalization.getPreferredLanguage(language => { this.zone.run(() => resolve(language))); } }); } ngOnInit() { getDeviceLanguage().then(language => this.language = language); } } Nu krijgt de callback functie die wordt uitgevoerd door Cordova de Zone mee waarmee Angular kan bepalen dat de view opnieuw gerenderd moet worden
+Conclusie In Angular JS kon de view geforceerd opnieuw gerenderd worden met $scope.$apply() bij bijvoorbeeld een addEventListener
+Vanaf Angular 2 kan iets vergelijkbaars worden gedaan door de code met zone.run() uit te voeren
+Dit artikel gaat over de situatie waarbij de view niet updatet doordat Angular de Zone verliest
+Natuurlijk zijn er meer oorzaken te bedenken waarom Angular de DOM niet updatet
+Dit artikel beschrijft het bestaan van NgZone en dat dit de oorzaak zou kunnen zijn voor onverwacht gedrag bij asynchrone takenAfgelopen woensdag hadden we bij Luminis Arnhem weer een pizzasessie
+Dit keer kwamen we bijeen om te experimenteren met TDD, oftewel Test-Driven Development
+TDD is een softwareontwikkelmethode waarbij eerst tests worden geschreven en daarna pas de functionaliteit
+Het doel van de avond was om deze manier van ontwikkelen extra onder de aandacht te brengen
+En om hiermee te ervaring op te doen zonder druk van een project waar je dagelijks mee bezig bent
+De avond was ruwweg in twee delen opgesplitst
+Tijdens het eerste deel werd uitgelegd wat TDD inhoudt en ging iedereen zelf hardcore TDD-en
+In het tweede gedeelte werd er een app vol met bugs voorgeschoteld en moesten de deelnemers deze er test-driven uithalen
+Deel 1 – test-first development TDD schrijft voor dat er eerst een unit test wordt geschreven en daarna pas pas de functionaliteit
+Echter is dat pas het topje van de ijsberg
+De drie wetten der TDD zijn: Voordat je productiecode schrijft, moet je altijd eerst een falende unit test schrijven
+Deze test bevat het meest minimale dat genoeg is om te falen, niet kunnen compileren is ook falen
+Je moet het meest minimale schrijven aan productiecode dat genoeg is om alle falende tests weer te laten slagen
+Wanneer aan deze drie wetten gehouden wordt zal er steeds in een cyclus gewerkt worden
+De testen en productiecode worden samen geschreven in 1 cyclus
+Waarbij de testen maar een paar seconden eerder worden geschreven dan de productiecode
+“Maar als we ons zo strikt aan deze regels houden, dan wordt onze code toch een rommeltje?” hoor ik je denken
+Dat kan! En om dat te voorkomen moet je regelmatig je code weer netjes maken en herstructureren (refactoren)
+Omdat een dergelijke actie geen nieuwe productiecode zal opleveren valt dit buiten deze drie wetten
+Dus voor stap 1 of na stap 3 mag je naar hartenlust refactoren
+Zolang de tests maar blijven slagen
+Dit noemen we de red/green/refactor cyclus
+De cyclus die je doorloopt bestaat dus telkens uit de volgende drie stappen: Schrijf een unit test die faalt
+Schrijf productiecode die deze test laten slagen
+Ruim je zojuist gemaakte troep op
+Na een live coding demonstratie van Rachid ging iedereen hiermee zelf aan de slag
+We hadden een aantal puzzels uitgewerkt die de deelnemers dan test-driven moesten uitwerken
+Na zo’n 3 kwartier kwam deel 1 ten einde
+Het bleek nog best lastig te zijn om de eerste kleine falende tests te schrijven, die wel bijdragen aan wat er uiteindelijk bereikt moet worden
+Daarnaast merkten sommigen weer dat het wel makkelijk is dat je elke keer (cyclus) maar over een klein stapje hoeft na te denken
+Deel 2 – test-first bugfixing In deel 1 hebben we gezien dat de ontwikkelaar zowel de tests als de productiecode schrijft
+Dit heeft tot gevolg dat wanneer de programmeur iets over het hoofd ziet, dit in zowel de test als in de code over het hoofd gezien zal worden
+Verder kan het lastig zijn om altijd 100% volgens de TDD-methode te werken
+Echter bij het oplossen van bugs is het extra belangrijk om dit test-driven te doen
+Björn gaf een voorbeeld waar het oplossen van bug 1, ongemerkt een nieuwe bug had opgeleverd
+En na het oplossen van de nieuwe bug, was bug 1 er weer terug ingeslopen
+Om dit te voorkomen zal je dus voordat een bug wordt opgelost, eerst een falende test moeten schrijven die de bug bewijst
+Vervolgens hoef je alleen nog maar de testen slagend zien te krijgen
+Om wat hands-on ervaring hiermee te krijgen had Björn een programmaatje gemaakt dat wisselgeld uitrekent
+Als invoer wordt een verschuldigd bedrag en een betaald bedrag opgegeven, en vervolgens wordt het wisselgeld op het scherm wordt getoond
+Er zaten natuurlijk een aantal bugs in dit programmaatje
+De deelnemers kregen de opdracht om deze bugs test-first op te lossen
+All hands on TDD Toen iedereen hier een tijdje mee had gestoeid naderde het einde van de avond
+Tijdens de evaluatie bespraken we nog welke eigenaardigheden er zoal in het programmaatje zaten
+De details zal ik hier niet bespreken, want misschien wil je hier zelf nog wel mee aan de slag
+De code staat op Github en de bug-meldingen staan in dit document
+Het was een geslaagde avond, op naar de volgende pizzasessie!Afgelopen jaar hebben we op het dak van ons kantoor in Arnhem een LoRa Gateway geplaatst
+Met deze antenne is een groot deel van de stad Arnhem aangesloten op de The Things Network (TTN)
+Met TTN kun je eigen gateways installeren en koppelen aan het open source TTN cloud platform
+Hiermee kun je zelf de data van een LoRa node naar je eigen applicatie ontsluiten (Zie voor meer informatie over LoRa en The Things Network ook onze eerdere blog post) Wereldwijd zijn er al in verschillende steden TTN communities opgericht
+Deze communities hebben zich als doel gesteld om in zo veel mogelijk steden voor lokale LoRa dekking te zorgen en om daarbij te ondersteunen in het realiseren van LoRa oplossingen
+Dennis Geurts en ondergetekende zijn de oprichters van The Things Network Arnhem
+Afgelopen jaar zijn er vanuit TTN Arnhem een aantal kennis sessies georganiseerd
+Deze kennis sessies zijn enerzijds gericht op uitleg over de werking van LoRa en anderzijds op het delen van ervaringen
+In samenwerking met het Astrum college in Velp is een workshop georganiseerd, waarbij de deelnemers zelf een LoRa node hebben kunnen bouwen
+Afgelopen week heeft Dennis Geurts nog een lezing over LoRa gegeven bij de Vereniging voor Experimenteel Radio Onderzoek in Nederland(VERON)
+Naast het organiseren van kennis sessies en meetups is TTN Arnhem op zoek naar IoT oplossingen die in en rondom de stad Arnhem kunnen worden toegepast
+Denk hierbij bijvoorbeeld aan toepassingen zoals het monitoren van verkeersstromen en het meten van de luchtkwaliteit
+Om meer zichtbaarheid aan de missie van TTN Arnhem te geven hebben we onderstaand filmpje gemaakt
+Recent is ook de LoRa dekking in en rondom Arnhem vergroot
+Er is een nieuwe gateway geïnstalleerd op de Groningensingel
+Met deze nieuwe gateway is het bereik rondom de stad vergroot tot 28,5 km
+Wil je meer weten over The Things Network Arnhem of heb je ideeën voor interessante IoT toepassingen
+Neem dan contact met ons op of bezoek de aankomende The Things Conference in Amsterdam!Wat, geen IT onderwerp dit keer?! Klopt
+Bij Luminis experimenteert men af en toe met elektronica en regelmatig duikt de vraag op: ‘spanning en stroom, wat is eigenlijk het verschil?’ Een in de volksmond veelgehoorde uitspraak is: ‘daar staat stroom op’
+Het is lastig om je een goed beeld te vormen bij de begrippen elektrische spanning en stroom
+In deze blogpost geen wetenschappelijke definities maar een omschrijving die beter aansluit bij de gevoelsbeleving
+Stel je een regenton voor
+De regenton is gevuld met water en onderin de regenton zit een gat waardoor het water naar buiten kan stromen
+Daar houd je je hand voor, zodat er nog geen water naar buiten stroomt
+Voel je het water tegen je hand drukken
+Als je nu je hand een klein beetje verschuift zal er een beetje water uit komen, maar nog niet heel veel
+Als je nu je hand helemaal weg haalt zal er veel meer water uit het gat stromen
+Wat heeft dit nu met spanning en stroom te maken
+Je kunt de druk die het water uitoefent op het gat in de ton zien als spanning
+De waterstraal die uit het gat spuit kun je zien als stroom
+Het gat in de ton vormt een weerstand voor het water
+Een groot gat betekent: minder weerstand
+Het is voor het water makkelijker om naar buiten te stromen
+Een klein gat betekent: meer weerstand
+Het is voor het water lastiger om naar buiten te stromen
+Weerstand is in dit geval: een eigenschap van het gat in de ton om de stroom van water te bemoeilijken
+Weerstand is niets anders dan de verhouding tussen de spanning en de stroom
+Deze verhouding is vastgelegd in de wet van Ohm: weerstand is spanning gedeeld door stroom
+Vul als voorbeeld eens een paar getallen in
+Je ziet direct dat bij een hoge spanning maar kleine stroom de weerstand veel hoger is dan wanneer de stroom ook groot is
+Dit klopt met het beeld van de regenton: als er veel water in de ton zit (grote druk, ofwel spanning) maar er is een klein gat (veel weerstand) dan zal er niet veel water uitkomen (kleine stroom)
+Een voorbeeld van toepassing van deze begrippen in het dagelijks leven is een lamp in de woonkamer die we op een stopcontact aansluiten
+Een stopcontact kunnen we vergelijken met de regenton
+Er staat een spanning op het stopcontact, maar er loopt nog geen stroom, er is immers niets aangesloten (geen gat in de ton)
+Als we een gloeilamp aansluiten en deze laten branden loopt er wel stroom
+De gloeilamp kunnen we zien als het gat in de ton: een lamp met weinig weerstand zal veel stroom doorlaten een lamp met veel weerstand zal weinig stroom doorlaten In het dagelijks leven komt men het begrip “weerstand” niet vaak tegen
+Men heeft bijvoorbeeld in het huishouden vooral te maken met spanning en het vermogen van apparatuur (een gloeilamp kan bijvoorbeeld een vermogen hebben van 25 watt of van 60 watt)
+Een veelgemaakte fout is het te zeggen dat ergens “stroom op staat”
+Er kan wel ergens spanning op staan of stroom doorheen lopen, maar spanning kan niet stromen en stroom kan nergens op staan
+elektrische spanning wordt uitgedrukt in de eenheid: volt elektrische stroom wordt uitgedrukt in de eenheid: ampère elektrische weerstand wordt uitgedrukt in: ohm Tenslotte toch nog even een bruggetje naar de informatie- en communicatietechnologie (de schrijver werkt tenslotte bij een IT-bedrijf)
+Stel je voor dat je een gevulde regenton hebt met een kraantje en daaraan een lange slang maakt
+Bij de ton doe je de kraan afwisselend open en dicht, daardoor stroom het water afwisselend wel of niet uit de slang
+Bij het uiteinde van de slang zit iemand aan wie je een boodschap wilt overbrengen
+Spreek met hem een bepaald patroon af van wel of geen water (1 of 0), en je hebt een zeer simpele vorm van digitale communicatieSoftware engineers en architecten, project managers en designers; iedereen die werkt aan digitale producten zou in zijn werk moeten focussen op het beste resultaat voor de klant
+Dat lijkt voor de hand te liggen, maar de praktijk is vaak anders
+Engineers en architecten zoeken ‘resultaat’ in de techniek, project managers in het proces, designers in de vorm
+Logisch, gezien de expertises en verantwoordelijkheden binnen het team
+Maar al deze specifieke expertise staat uiteindelijk in dienst van het eindresultaat, het product en haar succes
+Als die focus op het product niet gedeeld en gedragen wordt binnen een team vaart iedereen een eigen koers, bekijkt iedereen zijn werkzaamheden vanuit zijn eigen professionele hokje en is het eindresultaat slechts een optelsom der delen
+Ik heb het geluk te mogen werken met collega’s met uiteenlopende expertises en een gedeelde passie voor kwaliteit en vakmanschap
+We zetten onze expertise in voor het belang van de klant en zijn product, in plaats van de klant en zijn product te zien als een object om onze expertise op te botvieren
+Wij zijn niet van ‘U vraagt, wij draaien’
+Wij draaien het om en willen weten waar de vraag vandaan komt
+Zo weten we de vraag scherper te krijgen en kunnen we écht iets toevoegen
+Dat vergt een blik breder dan de eigen expertise, een gemeende interesse in je klant en durf om je buiten gebaande paden te begeven
+We respecteren elkaars vakmanschap, proberen elkaar te begrijpen in plaats van te bestrijden
+Ik vind inspiratie in deze diversiteit en merk dat we uiteindelijk allemaal hetzelfde willen: het beste resultaat voor onze klant
+Bij Luminis noemen we dat Product Thinking
+Bijvoorbeeld: Als een klant vraagt om iets te doen aan de performance problemen van zijn app, is de natuurlijke reactie van veel ontwikkelaars om op zoek te gaan naar technische mogelijkheden om milliseconden af te kunnen schrapen van de wachttijden
+Een logische reactie voor technisch experts en vaak is het ook wat de klant verwacht
+Het is echter jammer dat vaak niet verder wordt gekeken dan de techniek
+Als je verder kijkt en doorvraagt is performance niet alleen een puur technische kwestie
+De techniek heeft hier eigenlijk helemaal geen probleem, het is immers de menselijke gebruiker die de techniek als traag ervaart
+Je zou kunnen zeggen dat de klant te ongeduldige gebruikers heeft en op zoek moet naar gebruikers met meer geduld, maar daar kom je waarschijnlijk niet mee weg
+Wel zijn er naast technische optimalisatie ook andere oplossingen voor dit probleem die het overwegen waard zijn: het tonen van betekenisvolle informatie aan de gebruiker tijdens het wachten, het ophalen van de meest gebruikte informatie voordat deze door de gebruiker opgevraagd wordt, het anders inrichten van van de informatiestructuur, het toepassen van subtiele transities tijdens het ophalen van nieuwe informatie waardoor het wachten niet als wachten wordt ervaren… noem maar op
+Die brede blik, dat verder kijken dan de vraag blijkt lang niet altijd voor de hand liggend
+Het is ook lastig als de druk hoog is
+De markt dwingt ons met scherpe aanbiedingen te komen, de concurrentie is groot
+Design is zo’n post waar relatief gemakkelijk op te bezuinigen valt, omdat het in eerste instantie minder opvalt als er weinig aandacht aan wordt besteed
+We kunnen in de helft van de tijd ook best een ontwerp maken, het is alleen minder goed
+En ook daar zit een denkfout
+Want juist als je investeert in het nog eens goed nadenken over de vraag, het probleem en de beoogde oplossing kan een product ontworpen worden dat scherper is, eenvoudiger en wellicht wel veel goedkoper te realiseren
+Hoe dan ook betaalt een goed ontwerp op lange termijn de investering terug
+Daar moet je niet op willen bezuinigen, want dat kost de klant op lange termijn meer geld
+Projecten moeten niet alleen op prijs, risico of planning worden gestuurd
+Ook voor sales en project managers geldt dat ze op de expertise van collega’s leunen
+Bijvoorbeeld door het team te laten meedenken hoe het goedkoper, slimmer of sneller kan als het moet
+Of hen de klant te laten overtuigen dat het echt beter is voor hem en zijn product om meer tijd of geld te investeren, of voor een andere richting te kiezen
+We helpen elkaar om uiteindelijk de klant het beste te kunnen helpen
+Dat is niet de gemakkelijkste weg, maar we zijn het aan ons gedeelde ideaal verplicht; het beste resultaat voor onze klantToen ik begon met hardlopen stond mijn trainer bij de finishlijn met pen en opschrijfboekje en schreeuwde elke ronde mijn rondetijd door en of ik moest versnellen of het huidige tempo aan moest houden
+Achteraf analyseerden we de rondetijden
+Die rondetijden waren de enige houvast die we hadden om voortgang te meten
+Fast forward 15 jaar
+Door de mobiele telefoon en sport apps kan elke beginnende sporter zeer geavanceerde analyses loslaten op zijn activiteiten
+Deze apps zijn uitgegroeid van simpele apps om je rondje vast te leggen naar complete sociale platformen
+Eén van de trends hierin is dat de data die verzameld is door het platform ook beschikbaar wordt gemaakt voor ontwikkelaars
+Ontwikkelaars kunnen zo hun eigen interpretatie van de data implementeren en publiceren als extensies op het platform
+In dit artikel wordt een van deze platformen uitgelicht die deze trend heeft ingezet en volledig gefocust is om support te bieden voor ontwikkelaars: Garmin IQ
+Garmin IQ Garmin is een van de grootste fabrikanten van hardloop- en fietscomputers
+Vorig jaar lanceerde Garmin hun ontwikkelaarsplatform Connect IQ
+Ontwikkelaars kunnen op dit platform eigen applicaties voor fietscomputers en hardloophorloges ontwikkelen en publiceren
+Voor Eclipse is er een plugin ontwikkeld waarmee je de door jou ontwikkelde app gelijk kan draaien op een gesimuleerd Garmin apparaat
+Daarnaast is er een eigen programmeertaal ontwikkeld genaamd Monkey C
+Naar eigen zeggen is de taal heel erg beïnvloed door populaire programmeertalen als C, Java™, JavaScript, Python™, Lua, Ruby, and PHP (Je zou je bijna gaan afvragen waar ze niet door beïnvloed zijn)
+Tijdens het hardlopen kun je, afhankelijk van je horloge en verbonden sensoren, data uitlezen over de activiteit
+Bekende voorbeelden hiervan zijn pace (snelheid uitgedrukt in aantal minuten per kilometer) en de afstand afgelegd tijdens de activiteit
+Eén van de type applicaties die ontwikkeld kan worden is het tonen van zo’n dataveld
+Dit kan een (nieuwe) berekening zijn op basis van data uitgelezen uit verschillende beschikbare sensoren
+Om de uitleg wat concreter te maken hierbij een voorbeeld van een dataveld dat ik zelf ontwikkeld heb: Grade Adjusted Pace
+Tijdens trainingen kan het belangrijk zijn om een bepaalde snelheid aan te houden
+Echter als je in heuvelachtig gebied woont, moet je tijdens het klimmen veel meer vermogen leveren om dezelfde snelheid aan te houden als op een vlakke weg
+Dat is waar Grade Adjusted Pace om de hoek komt kijken
+Dit is de pace die je op een vlakke weg zou lopen met hetzelfde vermogen als je op dat moment de heuvel op (of af) aan het lopen bent
+De gebruikt formule is afgekeken van de Britse onderzoeker Mervyn Davies
+Hij kwam er tijdens testen achter dat elke procent extra stijgingspercentage, (elite) hardlopers met 3.3% vertraagd raken
+Als je dit terugrekent betekent dus dat elke 30 meter stijging er een vertraging van ongeveer 20 seconden is (bron)
+Met deze informatie is deze berekening vertalen in een Garmin applicatie vrij eenvoudig
+In het onderstaande screenshot staat de code om de Grade Adjusted Pace realtime weer te geven op een Garmin hardloophorloge
+De compute() methode wordt door het framework tijdens een activiteit elke seconde aangeroepen met een info activity object
+Dit object bevat realtime informatie over de activiteit
+De gegevens die in de onderstaande berekening van het info activity object gebruikt worden zijn de huidige hoogte en snelheid
+Met behulp van de eclipse plugin kan deze code in een gesimuleerd horloge draaien
+Vervolgens kan er data van activiteiten ingeladen en opnieuw ‘afgespeeld’ worden zodat het veld getest kan worden met data van een activiteit
+Ook kan het vanuit eclipse op een echt horloge worden gezet zodat het in de echte wereld getest kan worden
+De toekomst De gegevens die nodig zijn om gerichter te kunnen trainen worden steeds bereikbaarder en betaalbaarder voor de amateursporter
+Een goed voorbeeld hiervan is het berekenen van de aerobe drempel
+De drempel waarin het lichaam exponentieel meer melkzuur begint aan te maken als bijproduct van verbranden van suiker (het bekende verzuren)
+Tot voor kort deden topsporters dit in een lab middels een ademgasanalyse, tegenwoordig is er sensor te koop op de consumentenmarkt voor de prijs van één ademgasanalyse die deze drempel relatief nauwkeurig kan meten
+Deze gegevens kunnen door platformen weer gebruikt worden om bijvoorbeeld een specifieker trainingsschema te generen voor zijn gebruikers
+Conclusie De technologie binnen de sportmarkt heeft een gigantische sprong gemaakt met als resultaat dat sporters meer inzicht hebben in wat de invloed is van hun training
+Daarnaast maken platformen de data beschikbaar en geven ontwikkelaars de ruimte om het platform en zo de beleving te verbeteren
+Ontwikkelaars de ruimte geven om jouw product uit te breiden kan er voor zorgen dat het product up-to-date kan blijven
+In snelgroeiende markten als deze wordt het dus steeds belangrijker voor platformen om te zorgen dat ontwikkelaars voor jou kiezen
+P.S
+Het geeft enorm veel motivatie om de voortgang uitgedrukt te zien in getallen, maar vergeet niet om af en toe wat minder op getallen te richten en gewoon te genieten van het hier en nu tijdens het lopen 😉Bij bestaande projecten zie ik vaak een branch tree met soms meer dan 7 branches naast elkaar, die vanaf elkaar zijn ontstaan en in een andere branch zijn teruggemerget
+Is een dergelijk web van branches nog bruikbaar
+Of de vraag is misschien; kan dit beter
+Kan dit beter
+– Ja dat kan! Met een paar simpele richtlijnen is het mogelijk om een branch tree te krijgen met maar 1 develop tak, met alleen maar branches voor de features die op dat moment in ontwikkeling zijn en om die reden nog niet naar develop gemerget moeten worden
+Bij het gedeelte over ‘develop branch’ leg ik uit waarom er een develop branch is en waarom ‘work in progress‘ daar niet naartoe gemerget zou moeten worden
+Waarom
+Waarom moeilijk doen als het makkelijk kan
+– het is natuurlijk heel makkelijk om een puinhoop te maken
+Maar dan is het moeilijk om nog iets terug te vinden
+En het is dan niet alleen moeilijk, maar ook vervelend om de boel te moeten opruimen
+Daarom is het belangrijk om te voorkomen dat het een puinhoop wordt
+Waarom gebruiken we überhaupt versiebeheer
+– versiebeheer met Git is niet alleen handig voor review en samenwerking
+Versie beheer is ook handig om te zien wat er wanneer gebeurd is
+Als bijvoorbeeld iets niet meer werkt, kun je altijd terug naar het moment waarop het nog wel werkte
+Met Git is dan makkelijk te zien wat er is gebeurd en hoe het kan worden opgelost
+De ‘develop’ branch De develop branch is de tak die werkende code bevat
+Dat betekent code die is gereviewd, is goedgekeurd en is getest
+Bij het starten met bouwen van nieuwe functionaliteit is het wel zo handig om een applicatie te hebben die werkt
+Bij het maken van een feature branch is het daarom belangrijk dat de feature branch aftakt van een werkende develop branch
+Daarom zou een feature branch ‘in progress’ dus ‘nooit’ naar develop gemerget moeten worden
+De ‘master’ branch Als de develop branch dusdanig ver in ontwikkeling is dat de applicatie bruikbaar is (gedeployed kan worden), kan develop naar een master branch worden gemerget
+Richtlijnen voor een nette Git tree Bij het starten van nieuw werk maak je daarvoor een nieuwe feature branch aan
+Om een feature branch te starten vanaf develop moet eerst develop lokaal up-to-date zijn
+1
+Dus check-out develop en pull 2
+Start nieuwe feature branch Belangrijk is dat de feature branch zo lang mogelijk lokaal blijft en niet gepusht wordt naar remote, omdat in latere stappen dan gepusht moet worden met ‘force’, waardoor collega’s hun werk zouden kunnen verliezen
+Als het werk op de nieuwe feature branch klaar is, zijn er ondertussen door collega ook allerlei branches aangemaakt en naar develop gemerget
+Daarom moet je eerst rebasen op develop zodat jouw aanpassingen het meest recent zijn in de Git tree
+3
+Check out develop en pull 4
+Check out de feature branch en rebase op develop 5
+Los merge-conflicten op 6
+Check out develop en merge de feature branch in develop en push develop Gebruik bij het mergen ‘fast-forward’ mergen
+Fast-forward mergen zorgt ervoor dat, indien mogelijk, de commit in de tree wordt geplaatst alsof het op develop was gecommit
+Bij mergen zonder fast-forward ontstaat een kleine aftakking met daarin de commit en een merge commit
+Twee commits dus! De tweede commit met de opmerking dat er is gemerget is naar mijn idee behoorlijk nutteloos en zorgt alleen maar voor een klein beetje rommel in de Git tree
+Als een feature branch eenmaal is gemerget staat ie op develop en is de aftakking niet meer nodig
+7
+delete de feature branch (als je ooit gepusht hebt naar remote, voor bijvoorbeeld een pull request, dan ook van remote verwijderen) Nuttige commits Tot slot nog een opmerking over een commit
+Toen ik begon met Git, committe ik elke aanpassing die ik deed, zodat ik zeker wist dat alles terug te vinden was
+Deze manier heeft tot gevolg dat een kleine aanpassing van bijvoorbeeld een tekst uit 3 of soms meer commits bestaat
+De eerste was het veranderen van de tekst, de tweede een spelfout in de aanpassing en de derde commit was het herstellen van een niet lekker lopende zin door de tekstaanpassing
+Wat heb je aan alle 3 de commits als je de wijziging uiteindelijk nodig hebt om terug te vinden
+Wat gebeurde nu in welke van de 3 commits
+En wat is nu het uiteindelijke resultaat
+Het terugvinden wordt dus moeilijker, omdat er veel meer commits zijn om in te zoeken dan nodig
+Door gebruik te maken van een amend commit, bewerk je de vorige commit
+Door gebruik te maken van amend committen houd je alle aanpassingen die nodig zijn in 1 commit
+Dat behoud ook meteen het overzicht
+Daarmee hebben we een laatste richtlijn: 8
+Gebruik niet meer dan 1 commit voor een feature Conclusie Te veel commits per feature zorgt voor onbruikbare commits
+Zonder rebasen ontstaan allerlei branches en merge commits, waar je in principe niks aan hebt
+De hiervoor besproken 8 stappen zorgen voor een overzichtelijk en bruikbaar versiebeheer
+Het lijkt meer werk om elke commit te moeten amenden, features te moeten rebasen en altijd de lokale develop up-to-date te moeten houden, maar bij veel doen, wordt het een gewoonte
+Het kost dan net zoveel tijd en moeite als zonder nadenken te committen en te mergen
+Het kost in het laatste geval zelfs meer tijd om iets terug te vinden of om uit te zoeken welke trees nog open staan of om terug te vinden wat er precies gedaan is waardoor de applicatie niet meer werktIn 1995 introduceerden Treacy en Wiersema in hun boek The Discipline of Market Leaders het begrip customer intimacy
+Met de komst van Industrial Internet of Things (IIoT) neemt dit principe een enorme vlucht, met volop kansen voor een betere klantrelatie
+Bij customer intimacy – een fraaie Nederlandse variant hebben we nog niet voorbij horen komen – staat de klant centraal
+Het gaat om het opbouwen van een vertrouwensband, om weten wat er speelt en de klant beter en gerichter kunnen bedienen
+Het maakt je bovendien wendbaarder in een vaak snel veranderende markt
+Voorbeelden en voordelen We zetten graag enkele voorbeelden van customer intimacy op een rijtje: Proactief je klant informeren en adviseren, omdat je via het verzamelen van data en/of het monitoren op afstand meer inzicht hebt op de werking en status van een product
+Gerichter doorontwikkelen en innoveren, doordat je beter weet hoe producten en diensten in de dagelijkse praktijk worden gebruikt
+Meer interactie en een hoger serviceniveau, zelfs als je B2B werkt en tot nu toe geen direct contact had met de eindgebruiker
+Anticiperen op nieuwe trends en verdienmodellen, doordat je je klanten en de markt beter volgt en begrijpt
+Kortom: via customer intimacy heb je meer inzicht in en grip op klantgedrag
+Het is de stap van gegevens naar een betere klantrelatie; van data naar intimiteit
+Daar is echter wel vertrouwen voor nodig
+Als bedrijf moet je kunnen garanderen dat het delen van gegevens veilig is en dat wordt voldaan aan de Europese wetgeving op dit gebied
+Daarnaast moet het gemakkelijk en efficiënt zijn, zodat de klant geen drempel ervaart
+Je klanten zover krijgen dat ze bruikbare gegevens ook daadwerkelijk delen, doe je door de voordelen ervan inzichtelijk te maken
+Goed communiceren dus
+Diverse bedrijven zetten daarnaast nog andere/aanvullende manieren in
+Albert Heijn verleidt haar klanten hun Bonuskaart te gebruiken, waardoor de grootgrutter precies weet waar en wanneer je welke boodschappen doet
+Bij Coolblue heb je vaak al een antwoord binnen voordat je een (zoek)vraag hebt gesteld, waardoor je meteen snapt hoe je voorkeuren en gegevens in jouw voordeel worden ingezet
+En Nedap Retail laat via een fraaie website en video zien hoe haar strategie veranderde van kostengericht – ze maakten betaalbare antidiefstalpoortjes – naar klantgericht: hun innovatieve poortjes registreren nu ook welke producten worden geleverd, verplaatst en verkocht
+Beter begrijpen, beter bedienen Het is wel zaak de juiste manier te kiezen om je klanten te overtuigen en te verleiden hun data te delen
+Een manier die aansluit bij je doelgroep
+Dat goed kunnen inschatten en hen op een aansprekende manier benaderen, bereik je juist ook met customer intimacy
+Beter begrijpen leidt tot beter bedienen
+En dat alles leidt bij de klant tot meer tevredenheid, betrokkenheid en loyaliteit, waar meer aankopen en een beter bedrijfsresultaat uit voortvloeien
+Omdat Luminis Arnhem vooroploopt op het gebied van innovatieve technologie en omdat onze mensen gedreven zijn om continu te verbeteren, kunnen wij een stap verder zetten en het over de businesskant hebben
+Wij brengen verschillende disciplines bij elkaar en vertalen dat waar de eindklant mee geholpen is naar techniek
+Hoe we dat doen
+We gaan met je om tafel, verdiepen ons in jouw business en kijken welke data je op welke manier kunt verzamelen
+Vervolgens helpen we bij de implementatie van die technologieën, bij het formuleren van je zakelijke doelen én bij het daadwerkelijk gebruiken van data voor een betere klantrelatie
+Daarbij waken we voor een afhankelijkheidsrelatie: het gaat om kennisoverdracht en om een andere mindset binnen het bedrijf zelf
+We verzinnen niet een geweldige oplossing die alleen de techneut begrijpt, maar zorgen dat je hele bedrijf meebeweegt richting de toekomst
+Luminis werkt in dat opzicht net zoals customer intimacy: de klant begrijpen, kansen inzichtelijk maken, maatwerk leveren en iets extra’s bieden
+Benieuwd naar wat IIoT voor jou kan betekenen
+Lees er meer over of neem contact met ons op voor een kennismakingsgesprek!Wat zijn beacons en wat kan je er mee
+Beacons zijn kleine apparaatjes die Bluetooth signalen uitzendt
+Mobiele telefoons kunnen deze signalen opvangen en verwerken
+Elke beacon kan een (uniek) bericht uitzenden
+Als voorbeeld kunnen we een ‘slim’ deurslot nemen
+Het slot voorzien van een beacon, zendt een unieke code uit
+De gebruiker heeft een app op zijn smartphone om de deur te kunnen ontgrendelen
+Doordat de app weet bij welke deur de gebruiker staat (door middel van de uitgezonden unieke id), kan de app de deur automatisch voor je ontgrendelen
+Wanneer je een veiligere omgeving wilt creëren zou de app eerst om authenticatie vragen, zoals een fingerprint, voordat de deur ontgrendeld wordt
+Het doel van dit onderzoek is om te kijken of de app nauwkeurig de afstand tot een beacon kan bepalen
+Tijdens het onderzoek heb ik gebruik gemaakt van het Eddystone protocol voor de beacon
+Het voordeel van Eddystone is dat het opensource is en gebruikt kan worden in combinatie met Android en iOS
+De library van AltBeacon heb ik gebruikt om de beacons te kunnen detecteren
+Voor de beacons zelf heb ik Estimotes gebruikt
+Daarnaast heb ik een Motorola Nexus 6 gebruikt om de beacons te kunnen detecteren
+Is de beacon afstand nauwkeurig
+De absolute afstand tot een beacon meten gaat niet goed
+Het is wel mogelijk om goed relatieve afstanden te meten
+Zo kun je ze categoriseren van dichtbij tot ver weg
+Een afstand van 0 tot 2 meter zou je kunnen beschouwen als directe omgeving, 2 tot 10 meter als dichtbij en meer dan 10 meter ver weg
+In mijn onderzoek heb ik verschillende methodes onderzocht om de afstand tussen een telefoon en een beacon te bepalen
+Met een beacon library (AltBeacon) en een eigen formule heb ik gekeken naar de nauwkeurigheid
+De eerste methode die ik onderzocht heb is de standaard afstand berekening die de library van de beacons gebruikt
+De berekening bestaat uit metingen over de afgelopen 20 seconden
+Van die metingen worden de 10% boven en ondergrens weggegooid
+Van de overige metingen wordt de afstand berekend
+Het nadeel van deze methode is dat het ongeveer 20 seconde duurt, voordat de app weet op welke afstand de beacon is
+Voor korte afstanden, 0 tot 2 meter, werkt de afstandsbepaling redelijk goed
+De afwijking zit tussen 0,5 en 2 meter
+Als de afstand meer dan 2 meter is dan zijn afwijkingen veel hoger, de afwijking loopt op tot 10 a 40 meter
+De tweede methode is door zelf met een formule de afstand te bepalen
+De formule gaat uit van de tx power en de rssi waarde en een constante
+(tx power is de zend kracht, rssi is de ontvangen zend kracht, n is een constante die de hoeveelheid omgevingsruis symboliseert) apache RSSI = TxPower - 10 * n * log(d) http://stackoverflow.com/a/24245724/2429753 Om ruis en afwijkende metingen te voorkomen, middel ik de afgelopen 5 metingen om een afstand te krijgen
+Hierdoor zijn de meeting een stuk nauwkeuriger en regeert het snel op afstandsveranderingen
+De afwijking van 0 tot 4 meter bedraagt 0,1 tot 0,5 meter
+Bij Afstanden groter dan 4 meter wordt de nauwkeurigheid minder, de afwijking ligt dan tussen 10 en 40 meter
+De nauwkeurigheid kan van tijd tot tijd heel erg verschillen
+Ruis wordt veroorzaakt door objecten in de omgeving zoals muren
+Maar ook andere apparaten die ook radiosignalen uitzenden, zoals wifi, babyfoons, magnetron, telefoons, enz
+De telefoon zelf is ook een van de oorzaken, waardoor de nauwkeurigheid verschilt
+De telefoons zijn niet allemaal voorzien van hetzelfde merk en type hardware
+Zo wordt er bij de ene telefoon een langere antenne gebruikt dan bij de andere
+Ook de behuizing van een telefoon heeft invloed op de bluetooth chip
+Dit soort kleine veranderingen zorgt ervoor dat niet voor elk apparaat de afstand tot een beacon goed berekend kan worden
+Wat kan je nog meer met Eddystone beacons doen
+De beacon kan gekoppeld worden aan de Beacon Dashboard van Google
+Als de beacon geregistreerd is dan zendt de beacon informatie door naar het dashboard
+Via het Dashboard kun je technische informatie zien over de beacons
+Met de Proximity Beacon API kun je een locatie koppelen aan een beacon
+Zo kun je de latitude en longitude coördinaten instellen
+Ook kun je de verdieping van een gebouw en een Google Places ID instellen
+Via de Nearby Messages API is het mogelijk om kleine berichten te verzenden naar de telefoon
+Het voordeel van de Nearby Messages API is dat de berichten op afstand ingesteld kunnen worden
+Je hoeft hierdoor niet naar elke beacon apart om een nieuw bericht in te stellen
+Welke informatie verstuurt een beacon
+Er zijn momenteel 4 mogelijke “frames” die een beacon kan versturen: Eddystone-UID Eddystone-URL Eddystone-TLM Eddystone-EID Eddystone-UID De eerste frame is een statische reeks aan byte-waardes
+De eerste 10 bytes bevatten de Namespace en de laatste 6 bytes de Instance
+Deze methode is handig voor bijvoorbeeld scannen naar een specifieke groep (Namespace) beacons, de rest van de gevonden beacons worden dan weg gefilterd
+Eddystone-URL De Eddystone-URL frame wordt gebruikt voor het physical web
+Hiermee kun je fysieke objecten “verbinden” met het internet
+Enkele leuke voorbeelden kun je hier vinden
+https://google.github.io/physical-web/examples Dit frame verstuurt, zoals de naam eigenlijk al zegt, een url
+De lengte van de url mag maximaal 17 karakters zijn
+Je kunt een van de 4 url scheme prefixen instellen die niet mee gerekend worden; http://www
+https://www
+http:// https:// apache https://www
+L u m i n i s 
+e u / | prefix | 1 2 3 4 5 6 7 8 9 10 11 In dit voorbeeld zie je dat er maar een beperkte ruimte is om naar een website te linken
+Daarom moet je creatief om gaan met de beschikbare ruimte
+Eddystone-TLM De Telemetry frame is data over de beacon zelf
+Hiermee kun je controleren hoeveel frames de beacon verzonden heeft
+Ook kun je zien wat de batterij level van de beacon is
+Dit frame is dus zeer geschikt voor het monitoren van de beacons
+Het frame bestaat uit; Batterij voltage Beacon temperatuur De hoeveelheid frames die verzonden zijn sinds dat de beacon aan staat
+Hoelang de beacon aan staat
+Eddystone-EID Het meest recente toegevoegde frame is de ecrypted ephermal identifier
+De id verandert periodiek, via een webserver kan dan het bericht gedecrypt worden
+Het gebruik van de Eddystone-EID frame is uitermate geschikt voor security en privacy bewuste toepassingen
+Conclusie De absolute afstand berekenen is niet ideaal
+Door omgevingsruis (muren en andere apparaten) is het niet mogelijk om de afstand goed te kunnen berekenen
+Je kunt wel de relatieve afstand mee bepalen, directe omgeving, dichtbij en ver weg
+Naast afstand bepalen kun je ook nog de nodige informatie met een beacon versturen
+Zo kan een beacon bijvoorbeeld een uniek id of een url van een website verzenden
+In beacons zie ik heel veel potentie, ze kunnen een hele mooie toevoeging zijn aan bestaande apps
+Ook zonder een app zie ik genoeg mogelijkheden om beacons te kunnen toepassen
+Je kunt bijvoorbeeld in een showroom bij een product een beacon plaatsen
+Deze beacon zendt bijvoorbeeld een url uit, die meer informatie, videos en ander promotie materiaal over het product verschaft
+Beacons zijn de oplossing om de wereld van fysieke objecten te verbinden met de digitale wereldTijdens een van mijn laatste projecten heb ik een aantal dingen geleerd, die elke front-end developer zou moeten weten
+Ik noem nadrukkelijk front-end, omdat de principes voor een back-end developer nogal triviaal kunnen zijn, terwijl ze voor een front-end developer helemaal niet vanzelfsprekend zijn
+Het project waar ik aan werkte is een uitgebreide AngularJS applicatie, maar de dingen die ik uit wil lichten zijn algemene principes en staan los van Angular: Modulair (component) Object i.p.v
+array Hergebruik en conditionele functionaliteit Directive (component) In AngularJS kan een directive (component) met een template worden gebruikt als dat stukje functionaliteit op verschillende plekken in de applicatie terugkomt
+Een directive wordt op 1 plek onderhouden, maar kan op meerdere plaatsen worden gebruikt
+In mijn laatste project kwam een blok met ‘laatste producten’ op verschillende pagina’s terug
+Daarom maakte ik een directive voor dat blok
+De data voor de producten haalde ik in de directive op met een call naar een back-end
+Probleem Het project waar ik aan werkte bestond uit een aantal fasen en elke fase bestond uit nieuwe functionaliteit en dus ook nieuwe designs
+Toen de designer aankwam met een nieuwe pagina waar het blok met laatste producten opeens 3 i.p.v
+4 producten bevatte, kon ik dat nog oplossen door de directive uit te breiden met een eigenschap ‘het aantal te tonen blokjes’
+De ng-repeat die ik in de directive template gebruikte voor de producten, kon zo uitgebreid worden met een limitTo: 3
+Maar toen onder het blok met laatste producten een blok moest komen met gerelateerde producten die er hetzelfde uitzagen, had ik een probleem
+De data voor de producten werd in de directive opgehaald
+Ik kon dat opnieuw oplossen door een eigenschap mee te geven voor welke type de directive data moest ophalen, maar de code werd zo een ondoorzichtige puinhoop
+Oplossing De directive was verantwoordelijk voor meer dan 1 items i.p.v
+voor 1 item! I.p.v
+een directive te maken voor 4 of 3 producten van een gegeven type, kon ik beter een directive maken voor 1 product
+De ng-repeat die ik in de directive gebruikte, kon ik beter verplaatsen naar de pagina die de directive gebruikte
+Op deze manier werd de directive verantwoordelijk voor 1 ding
+De data werd ook niet meer in de directive opgehaald, maar in de pagina die de directive gebruikt
+Daarmee bepaalt de pagina of en hoeveel laatste of gerelateerde producten getoond moeten worden m.b.v
+de directive
+Dus de directive toont 1 item, de parent bepaalt hoe een lijst met items op de pagina getoond wordt (in 3 of 4 kolommen, of links, of rechts, nieuwste of gerelateerde, etc.) Object i.p.v
+array Een array is een lijst van items
+Bij het definiëren van data voor bijvoorbeeld een lijst met producten lijkt het voor de hand liggend om die producten aan te leveren als array: javascript var items = [ { id: 1, name: ‘item 1’ }, { id: 2, name: ‘item 2’ }, { id: 3, name: ‘item 3’ } ]; maar als je nu het tweede item nodig hebt, moet je die op gaan zoeken door over alle items van de lijst te lopen: javascript items.find(function (item) { return item.id === itemToFind.id }) Met een object i.p.v
+array is het makkelijker om een item te vinden: javascript var items = { “1”: { id: 1, name: ‘item 1’ }, “2”: { id: 2, name: ‘item 2’ }, “3”: { id: 3, name: ‘item 3’ } } javascript items[itemToFind.id]; Een ander voorbeeld waarbij een object overzichtelijker is dan een array; het tonen van een item van de ene lijst in een andere lijst
+Array: basic var eneLijst = [ { id: 1, name: ‘item 1’ }, { id: 2, name: ‘item 2’ }, { id: 3, name: ‘item 3’ } ]; var andereLijst = [ { id: 1, name: ‘item 1’ }, { id: 2, name: ‘item 2’ } ]; var eneLijst.forEach(function (item) { andereLijst.forEach(function (otherItem) { if (otherItem.id === item.id) { /* do stuff */ } }) }) Object: javascript var eneLijst = { “1”: { id: 1, name: ‘item 1’ }, “2”: { id: 2, name: ‘item 2’ }, “3”: { id: 3, name: ‘item 3’ } } var andereLijst = { “1”: { id: 1, name: ‘item 1’ }, “2”: { id: 2, name: ‘item 2’ } } for (var key in eneLijst) { andereLijst[key]; } Dit is slechts een 2 level diepe lijst
+Hoe ongelukkig worden de for-loops van de array ten opzichte van een object als het gaat om een 6 of meer level diepe lijst (wat het geval was in mijn laatste project)!
+Hergebruik en conditionele functionaliteit Opsplitsen in componenten zorgt voor herbruikbaarheid en is daardoor onderhoudbaarder
+Dus een component kan op de ene plek voor de nieuwste items worden gebruikt en op een andere plek voor gerelateerde of populaire items
+Dat klinkt mooi, maar de verleiding is groot om conditionele functionaliteit in de modules en templates te verwerken
+Wat als componenten veel op elkaar lijken, maar op 1 puntje van elkaar verschillen
+Ga je dan voor een nieuwe component en dus duplicate code, of voor een eigenschap waarmee het verschil tussen de 2 typen kan worden opgelost (conditionele functionaliteit)
+Probleem Stel dat een directive voor een nieuwste product uit de volgende elementen bestaat; naam, plaatje, stip met nieuw erin bestel snel knop En dat een directive voor een uitverkocht product uit de volgende elementen bestaat: naam inactieve ‘bestel’-knop een popup om het product voor een andere datum te bestellen Conditionele functionaliteit zou de directive voor het nieuwe product vervuilen met allerlei functionaliteit om het product voor een andere datum te bestellen, wat voor een nieuw product misschien wel helemaal niet kan
+Andersom vervuilt conditionele functionaliteit de directive voor het uitverkochte product met allerlei html elementen, die helemaal niet worden gebruikt
+De directive is zo niet meer verantwoordelijk voor 1 item (functie), maar voor 2 type items
+Oplossing Houd een component (directive) zo klein mogelijk en gebruik deze niet voor verschillende functionaliteit
+Als voor het nieuwste en uitverkochte product dezelfde directive wordt gebruikt, moet de functionaliteit en template gelijk zijn voor beide items
+Als een item afwijkt qua functionaliteit of structuur, moet voor dit type een nieuwe component worden gemaakt
+Zo blijft de code schoon en leesbaar en is de kans op de weg kwijt raken in allerlei if statements een stuk kleiner
+Extenden Het kan natuurlijk zijn dat verschillende grotere componenten onderdelen bevatten die overeenkomen
+Dan kan voor dat onderdeel een nieuwe kleinere component worden gemaakt, of beide componenten kunnen een basis-component extenden met gedeelde functionaliteit
+Ook een template kan door verschillende componenten worden hergebruikt, als de html voor beide items hetzelfde is, maar bijvoorbeeld de functionaliteit niet
+Dit kan zolang de templates niet vervuild worden met conditionele functionaliteit
+En meer De voorgaande 3 principes zijn uitgelicht met voorbeelden van AngularJS
+Toch gelden deze principes in het algemeen
+Het is een denkwijze, een manier van code schrijven
+In een volgend artikel wil ik stilstaan bij twee andere principes die wel AngularJS-specifiek zijn; scope.$watch singletonToen ik bij Rensa werd gevraagd om hun huidige mobiele applicaties voor Windows, iOS en Android te gaan vervangen, door een versie die beter te onderhouden was, was mijn eerste gedachte een Typescript/Html/Cordova applicatie
+Maar rond die tijd had Microsoft net Xamarin overgenomen en werd het voor .NET ontwikkelaars met een MSDN licentie, of voor kleinschalig gebruik gratis om Xamarin te gaan gebruiken
+Wat is Xamarin eigenlijk
+Het is een omgeving waarin crossplatform apps ontwikkeld kunnen worden voor Android, iOS en OS X met .NET
+In deze omgeving worden apps over het algemeen ontwikkeld in C# maar in principe kan elke taal gebruikt worden die naar MISL compileert
+Op Android betekent dit een eigen runtime en op iOS wordt het gecompileerd naar machinecode omdat de kernel geen runtimes ondersteunt
+1
+Xamarin Ontwikkelomgeving Je kunt met Xamarin op zowel OS X als Windows ontwikkelen
+Op Windows gebruik je Visual Studio en maak je verbinding met een Mac om voor iOS te kunnen builden en te draaien op een simulator
+2 Ontwikkelomgeving Als deze verbinding eenmaal is opgezet kan de iPhone gestart worden vanuit Visual Studio en kun je gebruik maken van alle debug mogelijkheden die Visual Studio biedt, terwijl de applicatie wel op OS X draait
+3 VisualStudio starten op iOS Als de applicatie draait kan je vervolgens in Visual Studio op Windows een breakpoint zetten en door je applicatie heen stappen
+Als je op de Mac wil ontwikkelen moet je Xamarin Studio gebruiken of de spiksplinternieuwe release candidate van Visual Studio for Mac (niet te verwarren met Visual Studio Code)
+Als je voor de Mac kiest is het alleen niet mogelijk om Universal Windows Platform (UWP) applicaties te builden of te draaien
+Opzet Xamarin project 4 Xamarin Solution In afbeelding 4 zie mijn Xamarin project voor Rensa in Visual Studio
+Het project gemarkeerd met “(Portable)” is een portable C# class library, die de grootste gemene deler aan .NET api’s ondersteunt
+De meeste standaard .NET functionaliteit wordt ondersteund zoals bijvoorbeeld http calls, reflection en threading
+Wil je echter afbeeldingen bewerken, dan zal je dit moeten implementeren in platform specifieke projecten, of gebruik maken van een plugin
+Plugins zijn gewoon te installeren vanaf Nuget en meestal zal je deze in alle platform-specifieke projecten moeten installeren waarna je deze vanuit het “Portable” project kan aanroepen
+Naast het “Portable” project, zijn er dus projecten voor Android, iOS en Windows, met daarin de platform specifieke code
+Nog steeds in C# maar niet meer gedeeld
+Hier spreek je dus de api’s aan die specifiek zijn voor de verschillende platformen
+5 iOS SearchBar C# searchbar.SearchBarStyle = UISearchBarStyle.Minimal; searchbar.BackgroundColor = UIColor.White; searchbar.ShowsCancelButton = false; searchbar.SearchTextPositionAdjustment = new UIOffset(10.0f, 0.0f); 1234 searchbar.SearchBarStyle = UISearchBarStyle.Minimal;searchbar.BackgroundColor = UIColor.White;searchbar.ShowsCancelButton = false;searchbar.SearchTextPositionAdjustment = new UIOffset(10.0f, 0.0f); 5 iOS SearchBar In de code in afbeelding 5 pas ik een aantal properties van de UISearchBar klasse aan voor iOS
+In Android heb je bijvoorbeeld een SearchView klasse met de properties zoals op dat platform gebruikelijk is
+Ook alle viewcode schrijf je zoals voor het platform gebruikelijk is
+Dus voor Android werk je met XML, Activities en Fragments en voor iOS met Xib, Storyboards of code ect
+XAML We hebben nu een idee wat Xamarin is maar dit artikel gaat over Xamarin Forms
+Xamarin Forms is een schil over Xamarin, waarmee je niet alleen de business logica deelt maar ook de view definitie
+Dit doe je door middel van een XAML implementatie van Xamarin Forms
+XAML staat voor eXtensible Application Markup Language en is hét format voor Microsoft om een UI in XML te definiëren
+Vervolgens vertaalt Xamarin dit naar een platform specifieke UI
+Dit gebeurt op een andere manier dan je gewend bent van bijvoorbeeld Java Swing of Html/CSS oplossingen, waarbij de elementen vanaf de grond worden opgebouwd en de UI er standaard precies hetzelfde uitziet op alle platformen
+Bij Xamarin Forms wordt het element vertaald naar een platform specifiek element
+6 XAML TabbedPage XHTML <?xml version="1.0" encoding="utf-8" ?> <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="ServiceWijzer.App.Page.DevicePage" Title="{Binding PageTitle}" ItemsSource="{Binding PageViewModels}" ItemTemplate="{StaticResource DynamicDataTemplateSelector}"> </TabbedPage> 12345678 <?xml version="1.0" encoding="utf-8" ?><TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="ServiceWijzer.App.Page.DevicePage" Title="{Binding PageTitle}" ItemsSource="{Binding PageViewModels}" ItemTemplate="{StaticResource DynamicDataTemplateSelector}"></TabbedPage> 6 XAML TabbedPage In afbeelding 6 staat een voorbeeld van TabbedPage in Xamarin Forms
+In dit geval zet ik een aantal properties op het “TabbedPage” element, de “Title” spreekt voor zich en wordt op elk platform boven in de titel balk weergegeven
+De “ItemSource” bevat een lijst met view-models die weergegeven worden in de tabs
+De “ItemTemplate” property wordt gebruikt om de view te renderen
+Ik gebruik hier een zelfgemaakte klasse om op basis van de view-model de juist page te tonen
+7 Windows Tabs 8 iOS Tabs 9 Android Tabs In afbeelding 7,8,9 zie je hoe dit er uit ziet op de verschillende platformen
+Deze methode zorgt ervoor dat de identiteit van het platform behouden blijft maar dat er toch veel UI code gedeeld kan worden
+We kunnen nu zowel de business logica als de UI delen, maar betekent dat ook dat we 100% van de code kunnen delen
+Nou niet helemaal, je ziet altijd dat er wat platform specifieke code bij komt
+In mijn geval is dit beperkt gebleven tot een aantal UI specifieke functies, zoals het veilig opslaan van het wachtwoord en een implementatie van Google Analytics
+Inmiddels staat de applicatie in de verschillende stores en in afbeelding 10 zie je de regels code per project de conclusie na maanden ontwikkelen: meer dan 90% gedeelde code
+Project Regels code Gedeeld 7616 iOS 586 Android 751 Windows 471 10 Gedeelde code Conclusie Terugkijkend, zou ik Xamarin weer gebruiken
+Jazeker, er zijn namelijk een aantal belangrijke voordelen: De kracht van het kunnen delen van je bijna je volledige code base zeker als de apps uit dezelfde user stories bestaan
+Het delen van de logica zorgt er voor dat je dit maar één keer hoeft te testen
+Er is een kleinere kans op fouten want er is een kleinere codebase omdat er veel code gedeeld is
+Als er fouten optreden zijn die voor alle platformen meestal in één keer op te lossen
+En Xamarin Forms
+Dat ligt iets genuanceerder
+Als je design-eisen niet al te strikt zijn en je wilt voornamelijk werken met de standaard design elementen dan zeker, ook kan het de doorlooptijd flink verkorten
+Zijn er echter strikte design-eisen en is er meer vrijheid en flexibiliteit per platform gewenst, dan is Xamarin zonder Forms waarschijnlijk een betere optie
+De applicatie is deels zonder account te gebruiken je kunt het zelf uitproberen: App in de stores http://onelink.to/a97zmcMisschien heb je het al gehoord of heb je zelf al de antenne op het dak kunnen spotten
+Sinds een aantal maanden hebben wij op het kantoor Luminis Arnhem een LoRa Gateway staan
+Binnen Luminis Arnhem werken wij momenteel aan onze eigen LoRa case
+Op 1 oktober hebben wij Aelora tijdens de open dag van het Industriepark Kleefse Waard gepresenteerd
+De onderstaande video geeft hier van een impressie
+Wat is LoRa
+LoRa staat voor Long Range
+LoRa maakt het mogelijk kleine hoeveelheden data draadloos tussen apparaten te verzenden en op deze wijze aan te sluiten op het internet
+Dit kan wel tot afstanden van 15 kilometer
+Een ideale ondersteuning voor Internet of Things (IoT)
+Het enige wat je nodig hebt is een apparaatje met ondersteuning van het LoRa radio protocol
+Dit wordt een LoRa node genoemd
+Het is niet erg ingewikkeld om van je eigen device een LoRa node te maken
+Je kunt voor rond de 15 euro een kant en klare LoRa module kopen
+Deze module spreekt het LoRa protocol en verzorgt de draadloze communicatie
+De module zelf is vrij eenvoudig te integreren
+Bijvoorbeeld met een Arduino microprocessor bordje
+Het transporteren van data van de LoRa node naar het internet gebeurt door middel van een LoRa gateway
+Een gateway is volgens specificaties in staat om duizenden LoRa nodes te verbinden met het internet
+De frequentie en snelheid waarmee data wordt verzonden is relatief laag
+Dit maakt het mogelijk om een node regelmatig uit te schakelen, waardoor het stroomverbruik enorm omlaag gaat
+Op deze manier is het mogelijk om een node op een batterij meerdere jaren online te houden zonder deze op te laden
+Toepassingsmogelijkheden Er zijn verschillende toepassingen met LoRa denkbaar
+Denk bijvoorbeeld aan machine-to-machine toepassingen zoals het op afstand kunnen uitlezen van slimme energie meters en waterzuiveringsinstallaties
+Denk aan smart city toepassingen zoals draadloze sensoren op parkeerplaatsen en het detecteren van defecte lantaarnpalen
+Of bijvoorbeeld industriële toepassingen in fabrieken voor de kwaliteitsbewaking van productie processen
+LoRa is steeds meer in het nieuws
+Zo is KPN flink aan de weg aan het timmeren door haar bestaande zendmasten te voorzien van LoRa gateways
+Op deze wijze wil KPN een LoRa netwerk met landelijke dekking aan haar klanten aanbieden
+Dit met als doel IoT in Nederland een boost te geven
+Natuurlijk zit hier voor KPN ook een interessant verdienmodel achter
+The Things Network Een heel ander LoRa initiatief met een juist meer open source karakter is The Things Network (afgekort TTN)
+TTN biedt de mogelijkheid om je eigen gateways te installeren en deze te koppelen met het open source TTN cloud platform
+Op deze wijze kan je zelf de data van een LoRa node naar je eigen applicatie ontsluiten
+Het wordt nog mooier, je kunt in plaats van een eigen gateway ook gebruik maken van de gateways die al door andere mensen geplaatst zijn
+Inmiddels zijn er wereldwijd in verschillende steden TTN communities opgericht
+Deze communities hebben zich als doel gesteld om in steden voor lokale LoRa dekking te zorgen en te faciliteren in het realiseren van LoRa oplossingen
+The Things Network Arnhem Voor Luminis Arnhem is LoRa een interessante technologie die ingezet kan worden in IoT klantoplossingen
+Het open source karakter van The Things Network spreekt ons natuurlijk ook aan
+Daarom zijn we in Amsterdam op bezoek gegaan bij de oprichters van TTN
+Tijdens ons bezoek hebben we mee mogen denken met de technologie roadmap van TTN en hebben we ook met verschillende community leden gesproken
+Inmiddels zijn wij zelf zo enthousiast geworden dat we op eigen initiatief The Things Network Arnhem hebben opgericht
+Wij hebben daarbij ons als doel gesteld om Arnhem van LoRa dekking te voorzien
+Daarnaast willen wij door het organiseren van reguliere bijeenkomsten ook voor kruisbestuiving zorgen tussen bedrijven, scholen en gebruikers
+Via de Meetup App kunnen nieuwe leden zich aanmelden
+Binnenkort zal er een eerste TTN Arnhem meeting gepland worden
+Verder zal er ook een promotie filmpje worden gemaakt
+Is LoRa een hype
+Wat je bij nieuwe technologieën vaak ziet is dat iedereen er boven op duikt en roept dat dit het antwoord op alles is
+Dit zie je op dit moment ook bij LoRa
+LoRa bevindt zich volgens de Gartner Hype Cycle op het kantelpunt van de eerste fase van de technologie life-cycle
+Er is veel media aandacht voor, maar er zijn nog weinig success stories
+Het kan nog enige tijd duren voordat LoRa van de grond komt
+Dit is te vergelijken met de adoptie van Bluetooth
+Het kan ook gebeuren dat LoRa tegen die tijd is ingehaald door een andere technologie
+Zo is SigFox op het gebied van draadloze low-power technologie een interessante concurrent van LoRa
+Wie zal het zeggen
+Aelora Wat gaan wij zelf nu met LoRa doen
+Wij geloven dat je alleen iets van een technologie mag vinden als je er zelf ervaring mee hebt en dus eerst in de modder hebt gestaan
+Daarom werken wij binnen Luminis Arnhem nu aan onze eigen LoRa case
+Op 1 oktober hebben wij Aelora tijdens de open dag van het Industriepark Kleefse Waard gepresenteerd
+Aelora is een netwerk van lora vogeltjes dat de luchtkwaliteit in de omgeving kan meten
+De vogeltjes zijn op verschillende locaties gestationeerd
+Het idee van een vogel is ontleent aan de tijd van de mijnwerkers
+De mijnwerkers namen vaak een parkiet mee de mijnen in
+De kleine vogel werd ingezet om voortijdig schadelijke gassen te signaleren
+Helaas liep het dan vaak niet goed af met de parkiet
+Iedere Aelora vogel is voorzien van een deeltjes sensor en een 3D geprinte behuizing
+De vogels communiceren via onze eigen gateway met The Things Network
+Google Firebase wordt gebruikt om de verzamelde data vanuit TTN naar smartphones te ontsluiten
+Voor de realisatie van deze case hebben wij verschillende collega’s aangehaakt
+Zo is Ivo Domburg verantwoordelijk voor het visuele ontwerp van de vogels
+Dennis Geurts heeft de software implementatie op zich genomen
+Onze collega Jacco Schouw hebben wij aangehaakt voor het elektronica ontwerp van de stroomvoorziening
+De door Aelora verzamelde live data is voor iedereen beschikbaar op: http://aelora.nl Als Luminis Arnhem willen wij de kansen die wij in LoRa zien niet aan ons voorbij laten gaan
+De mogelijke toepassingen sluiten ook goed aan bij het soort klanten en projecten die wij in Arnhem graag hebben
+Wij houden jullie op de hoogte van onze LoRa ontwikkelingen
+Wordt vervolgd! Technische achtergrond Het open source cloud platform van The Things Network bestaat uit een aantal componenten
+Het doel van het platform is gericht op het afhandelen van data afkomstig van gateways en deze data bij de juiste gebruikers applicatie af te leveren
+Een LoRa node maakt verbinding en verstuurt de data op basis van 128 bits keys versleuteld naar een gateway
+Hierbij wordt een network session key gebruikt om de communicatie met een gateway op te zetten
+Een application session key wordt vervolgens gebruikt voor versleuteling van de data
+Na ontvangst van de data stuurt de gateway de data naar de TTN backend
+Vanaf hier verzorgen de router, broker en handler componenten de routering van data naar de juiste applicatie
+Voor een juiste routering zijn onder andere het node device adres en application identifier van belang
+Een gebruikers applicatie kan de data vervolgens ontvangen door gebruik te maken van het MQTT protocol
+Dit is een licht gewicht publish/subscribe protocol toegespitst op machine-to-machine communicatieASP.NET Core bevat een eigen Inversion of Control container
+Microsoft noemt het een Service Container en een Dependency noemen ze een Service
+In deze blogpost laat ik zien hoe deze Service Container werkt
+Hiervoor gebruik ik een MVC 6 webapplicatie
+Ik ga ervan uit dat je weet wat Dependency Injection is en hoe het werkt
+Als je dat niet weet raad ik je aan om dit te lezen
+In deze blogpost zijn een aantal codevoorbeelden verwerkt
+De volledige applicatie is hier te vinden
+Net zoals in MVC 5 heeft MVC 6 een klasse met de naam ‘Startup’
+Hierin kunnen services geregistreerd worden
+Dit kan via verschillende ‘lifetimes’
+Deze lifetimes heten Transient, Scoped, Singleton en Instance
+Het registreren van de services gaat als volgt: Services registreren in MVC 6 C# public void ConfigureServices(IServiceCollection services) { services.AddMvc(); services.AddTransient<IDemoService, DemoService>(); services.AddTransient<ITransientDependencyExample, TransientDependencyExample>(); services.AddScoped<IScopedDependencyExample, ScopedDependencyExample>(); services.AddSingleton<ISingletonDependencyExample, SingletonDependencyExample>(); services.AddInstance(new InstanceDependencyExample()); } 123456789 public void ConfigureServices(IServiceCollection services){ services.AddMvc(); services.AddTransient<IDemoService, DemoService>(); services.AddTransient<ITransientDependencyExample, TransientDependencyExample>(); services.AddScoped<IScopedDependencyExample, ScopedDependencyExample>(); services.AddSingleton<ISingletonDependencyExample, SingletonDependencyExample>(); services.AddInstance(new InstanceDependencyExample()); } Transient Er wordt een nieuwe instantie van de service gemaakt bij iedere aanroep
+In de HomeController zal de TransientDependencyExample van de HomeController dus een ander ID hebben dan de TransientDependencyExample in de DemoService
+Scoped Per request wordt er één instantie van de service gemaakt
+Als er een request binnenkomt in de HomeController zal de ScopedDependencyExample van de HomeController hetzelfde ID hebben als de ScopedDependencyExample in de DemoService
+Bij een nieuwe request zullen deze services weer een nieuw ID krijgen
+Singleton Singleton services worden bij de eerste aanroep geïnstantieerd
+Elke volgende request gebruikt deze instantie
+Als er een request binnenkomt in de HomeController zal de SingletonDependencyExample van de HomeController hetzelfde ID hebben als de SingletonDependencyExample in de demoservice
+Bij een nieuwe request zullen beide ID’s exact hetzelfde blijven
+Instance Werkt hetzelfde als de singleton lifetime
+Het enige verschil is dat er hierbij direct een instantie van de service geïnjecteerd wordt
+De service wordt dus geïnstantieerd bij het starten van de applicatie
+Alle geregistreerde klassen uit het bovenstaande voorbeeld, behalve de DemoService, hebben allemaal een Guid property met de naam ID
+Het ID wordt gegenereerd in de constructor
+In het volgende codevoorbeeld zie je dat alle services door middel van constructor injectie worden geïnjecteerd in de HomeController en de DemoService
+Ook DemoService wordt geïnjecteerd in de HomeController
+HomeController en DemoService C# public class HomeController : Controller { private ITransientDependencyExample _transientDependencyExample; private IScopedDependencyExample _scopedDependencyExample; private ISingletonDependencyExample _singletonDependencyExample; private IInstanceDependencyExample _instanceDependencyExample; private IDemoService _demoService; public HomeController(ITransientDependencyExample transientDependencyExample, IScopedDependencyExample scopedDependencyExample, ISingletonDependencyExample singletonDependencyExample, IInstanceDependencyExample instanceDependencyExample, IDemoService demoService) { _transientDependencyExample = transientDependencyExample; _scopedDependencyExample = scopedDependencyExample; _singletonDependencyExample = singletonDependencyExample; _instanceDependencyExample = instanceDependencyExample; _demoService = demoService; } public IActionResult Index() { List<DemoModel> list = new List<DemoModel>(); list.Add(new DemoModel() { Name = "Transient", FirstCall = _transientDependencyExample.ID.ToString(), SecondCall = _demoService.GetIDFromTransientDependency(), }); list.Add(new DemoModel() { Name = "Scoped", FirstCall = _scopedDependencyExample.ID.ToString(), SecondCall = _demoService.GetIDFromScopedDependency(), }); list.Add(new DemoModel() { Name = "Singleton", FirstCall = _singletonDependencyExample.ID.ToString(), SecondCall = _demoService.GetIDFromSingletonDependency(), }); list.Add(new DemoModel() { Name = "Instance", FirstCall = _instanceDependencyExample.ID.ToString(), SecondCall = _demoService.GetIDFromInstanceDependency(), }); return View(list); } } public class DemoService : IDemoService { private ITransientDependencyExample _transientDependencyExample; private IScopedDependencyExample _scopedDependencyExample; private ISingletonDependencyExample _singletonDependencyExample; private IInstanceDependencyExample _instanceDependencyExample; public DemoService(ITransientDependencyExample transientDependencyExample, IScopedDependencyExample scopedDependencyExample, ISingletonDependencyExample singletonDependencyExample, IInstanceDependencyExample instanceDependencyExample) { _transientDependencyExample = transientDependencyExample; _scopedDependencyExample = scopedDependencyExample; _singletonDependencyExample = singletonDependencyExample; _instanceDependencyExample = instanceDependencyExample; } public string GetIDFromTransientDependency() { return _transientDependencyExample.ID.ToString(); } public string GetIDFromScopedDependency() { return _scopedDependencyExample.ID.ToString(); } public string GetIDFromSingletonDependency() { return _singletonDependencyExample.ID.ToString(); } public string GetIDFromInstanceDependency() { return _instanceDependencyExample.ID.ToString(); } } 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990 public class HomeController : Controller{ private ITransientDependencyExample _transientDependencyExample; private IScopedDependencyExample _scopedDependencyExample; private ISingletonDependencyExample _singletonDependencyExample; private IInstanceDependencyExample _instanceDependencyExample; private IDemoService _demoService; public HomeController(ITransientDependencyExample transientDependencyExample, IScopedDependencyExample scopedDependencyExample, ISingletonDependencyExample singletonDependencyExample, IInstanceDependencyExample instanceDependencyExample, IDemoService demoService) { _transientDependencyExample = transientDependencyExample; _scopedDependencyExample = scopedDependencyExample; _singletonDependencyExample = singletonDependencyExample; _instanceDependencyExample = instanceDependencyExample; _demoService = demoService; } public IActionResult Index() { List<DemoModel> list = new List<DemoModel>(); list.Add(new DemoModel() { Name = "Transient", FirstCall = _transientDependencyExample.ID.ToString(), SecondCall = _demoService.GetIDFromTransientDependency(), }); list.Add(new DemoModel() { Name = "Scoped", FirstCall = _scopedDependencyExample.ID.ToString(), SecondCall = _demoService.GetIDFromScopedDependency(), }); list.Add(new DemoModel() { Name = "Singleton", FirstCall = _singletonDependencyExample.ID.ToString(), SecondCall = _demoService.GetIDFromSingletonDependency(), }); list.Add(new DemoModel() { Name = "Instance", FirstCall = _instanceDependencyExample.ID.ToString(), SecondCall = _demoService.GetIDFromInstanceDependency(), }); return View(list); }} public class DemoService : IDemoService{ private ITransientDependencyExample _transientDependencyExample; private IScopedDependencyExample _scopedDependencyExample; private ISingletonDependencyExample _singletonDependencyExample; private IInstanceDependencyExample _instanceDependencyExample; public DemoService(ITransientDependencyExample transientDependencyExample, IScopedDependencyExample scopedDependencyExample, ISingletonDependencyExample singletonDependencyExample, IInstanceDependencyExample instanceDependencyExample) { _transientDependencyExample = transientDependencyExample; _scopedDependencyExample = scopedDependencyExample; _singletonDependencyExample = singletonDependencyExample; _instanceDependencyExample = instanceDependencyExample; } public string GetIDFromTransientDependency() { return _transientDependencyExample.ID.ToString(); } public string GetIDFromScopedDependency() { return _scopedDependencyExample.ID.ToString(); } public string GetIDFromSingletonDependency() { return _singletonDependencyExample.ID.ToString(); } public string GetIDFromInstanceDependency() { return _instanceDependencyExample.ID.ToString(); }} Het resultaat van deze code is als volgt: Ik heb tot nu toe alleen nog services geïnjecteerd via de constructor
+Het is ook mogelijk om services te injecteren met methode parameters en dat werkt met het FromServices attribuut
+Methode Injectie in MVC 6 C# public IActionResult About([FromServices] ITransientDependencyExample transientDependencyExample) { … } 1 public IActionResult About([FromServices] ITransientDependencyExample transientDependencyExample) { … } Services zijn ook te injecteren in een Razor-view en dat gaat als volgt: Injectie in Razor View C# @inject DIDemo.ExampleClasses.IInstanceDependencyExample service; <p>@service.ID</p> 12 @inject DIDemo.ExampleClasses.IInstanceDependencyExample service;<p>@service.ID</p> Zie Github voor een volledig voorbeeld
+Het gaat om het volgende bestand: Views\Home\About.cshtml
+De servicecontainer wordt ook gebruikt voor de injectie van frameworkservices
+Hiervoor wordt de volgende conventie gebruikt: AddService
+Hierbij is Service de naam van de service
+Voorbeelden van frameworkservices zijn AddEntityFramework, AddIdentity, AddCors en AddCaching
+Bij een MVC-applicatie moet altijd de MVC-service geregistreerd worden door services.AddMvc() aan te roepen
+Als je die methode niet aanroept zal je zien dat er een InvalidOperationException wordt gegooid bij het configureren van de routes
+Het is ook mogelijk om een andere container te gebruiken en dat is erg eenvoudig
+Hier laat ik zien hoe je de service container vervangt door Autofac
+Eerst moeten er twee packages geïnstalleerd worden via NuGet: Install-Package Autofac -pre Install-Package Autofac.Extensions.DependencyInjection -pre In het vorige voorbeeld waarin services geregistreerd werden gaf de ConfigureServices methode void terug
+Om een andere container te ondersteunen moet deze methode een IServiceProvider teruggeven
+Hieronder is hier een voorbeeld van te zien
+Het werkt hetzelfde als het vorige voorbeeld, maar nu wordt er gebruik gemaakt van Autofac
+Registratie van Services met Autofac C# public IServiceProvider ConfigureServices(IServiceCollection services) { services.AddMvc(); var containerBuilder = new ContainerBuilder(); containerBuilder.RegisterType<DemoService>().As<IDemoService>().InstancePerDependency(); containerBuilder.RegisterType<TransientDependencyExample>().As<ITransientDependencyExample>().InstancePerDependency(); containerBuilder.RegisterType<ScopedDependencyExample>().As<IScopedDependencyExample>().InstancePerLifetimeScope(); containerBuilder.RegisterType<SingletonDependencyExample>().As<ISingletonDependencyExample>().SingleInstance(); containerBuilder.RegisterInstance(new InstanceDependencyExample()).As<IInstanceDependencyExample>(); containerBuilder.Populate(services); var container = containerBuilder.Build(); return container.Resolve<IServiceProvider>(); } 12345678910111213 public IServiceProvider ConfigureServices(IServiceCollection services){ services.AddMvc(); var containerBuilder = new ContainerBuilder(); containerBuilder.RegisterType<DemoService>().As<IDemoService>().InstancePerDependency(); containerBuilder.RegisterType<TransientDependencyExample>().As<ITransientDependencyExample>().InstancePerDependency(); containerBuilder.RegisterType<ScopedDependencyExample>().As<IScopedDependencyExample>().InstancePerLifetimeScope(); containerBuilder.RegisterType<SingletonDependencyExample>().As<ISingletonDependencyExample>().SingleInstance(); containerBuilder.RegisterInstance(new InstanceDependencyExample()).As<IInstanceDependencyExample>(); containerBuilder.Populate(services); var container = containerBuilder.Build(); return container.Resolve<IServiceProvider>();} Tot slot wil ik nog melden dat deze service container maar een minimale set aan features bevat
+Het is niet te gebruiken in non-webprojecten
+Het is ook niet de bedoeling dat het andere containers zoals Autofac of Unity vervangt
