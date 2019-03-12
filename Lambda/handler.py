@@ -15,7 +15,7 @@ def generateBlog(event, context):
 
     blogText = ''
     for i in range(50):
-        blogText += text_model.make_sentence() + '\n'
+        blogText += text_model.make_sentence() + '.\n'
 
     # Maak en stuur de response
     body = {
@@ -23,6 +23,9 @@ def generateBlog(event, context):
     }
 
     response = {
+        "headers": {
+            "Access-Control-Allow-Origin": "*"
+        },
         "statusCode": 200,
         "body": json.dumps(body)
     }

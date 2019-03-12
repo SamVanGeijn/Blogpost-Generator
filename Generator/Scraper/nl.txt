@@ -761,3 +761,165 @@ Het werkt hetzelfde als het vorige voorbeeld, maar nu wordt er gebruik gemaakt v
 Registratie van Services met Autofac C# public IServiceProvider ConfigureServices(IServiceCollection services) { services.AddMvc(); var containerBuilder = new ContainerBuilder(); containerBuilder.RegisterType<DemoService>().As<IDemoService>().InstancePerDependency(); containerBuilder.RegisterType<TransientDependencyExample>().As<ITransientDependencyExample>().InstancePerDependency(); containerBuilder.RegisterType<ScopedDependencyExample>().As<IScopedDependencyExample>().InstancePerLifetimeScope(); containerBuilder.RegisterType<SingletonDependencyExample>().As<ISingletonDependencyExample>().SingleInstance(); containerBuilder.RegisterInstance(new InstanceDependencyExample()).As<IInstanceDependencyExample>(); containerBuilder.Populate(services); var container = containerBuilder.Build(); return container.Resolve<IServiceProvider>(); } 12345678910111213 public IServiceProvider ConfigureServices(IServiceCollection services){ services.AddMvc(); var containerBuilder = new ContainerBuilder(); containerBuilder.RegisterType<DemoService>().As<IDemoService>().InstancePerDependency(); containerBuilder.RegisterType<TransientDependencyExample>().As<ITransientDependencyExample>().InstancePerDependency(); containerBuilder.RegisterType<ScopedDependencyExample>().As<IScopedDependencyExample>().InstancePerLifetimeScope(); containerBuilder.RegisterType<SingletonDependencyExample>().As<ISingletonDependencyExample>().SingleInstance(); containerBuilder.RegisterInstance(new InstanceDependencyExample()).As<IInstanceDependencyExample>(); containerBuilder.Populate(services); var container = containerBuilder.Build(); return container.Resolve<IServiceProvider>();} Tot slot wil ik nog melden dat deze service container maar een minimale set aan features bevat
 Het is niet te gebruiken in non-webprojecten
 Het is ook niet de bedoeling dat het andere containers zoals Autofac of Unity vervangt
+Android devices hebben een terug-knop
+Dit heeft het voordeel voor de gebruiker om gemakkelijk terug te kunnen waar je vandaan kwam
+Voor Android apps is het aan de developer op de juiste manier met de back button om te gaan
+Bij het maken van native apps voor Android gaat dat min of meer vanzelf, omdat daar gewerkt wordt vanuit de gedachte van child views, waarbij je met de back button naar de parent navigeert
+Bij het maken van apps met bijvoorbeeld Ionic en Cordova moet hier echter bewust over worden nagedacht en logica voor worden geschreven
+De terug-knop werkt niet altijd zoals verwacht Om het probleem duidelijk te maken ga ik uit van een eenvoudige app met een menu om naar de verschillende views binnen de app te kunnen navigeren
+Het menu heeft een aantal items, bijvoorbeeld ‘dashboard’, ‘aanbiedingen’, ‘instellingen’ en ‘profiel’
+De gebruiker bevindt zich op het dashboard en klikt in het menu op ‘instellingen’ De app navigeert naar de instellingen view De gebruiker klikt nu op de terug-knop en verwacht terug te komen op het dashboard Een Angular applicatie navigeert m.b.v
+de url
+Klikken op de back button brengt de gebruiker naar de vorige url
+Maar wat gebeurt er als de gebruiker een paar keer tussen twee pagina’s in het menu klikt; De gebruiker bevindt zich op de instellingen view en klikt in het menu op ‘profiel’ De gebruiker vindt daar niet wat hij zoekt en klikt in het menu op ‘instellingen’ Ook bij ‘instellingen’ vindt hij niet wat hij zoekt en gaat via het menu toch weer terug naar ‘profiel’ Bij ‘profiel’ herinnert hij zich opeens dat hij iets zag bij ‘instellingen’ wat hij zoekt en gaat via het menu opnieuw naar ‘instellingen’
+Als de gebruiker uiteindelijk heeft gevonden wat hij zoekt en klaar is, klikt ie op de terug-knop van het device en verwacht terug te komen op het dashboard Omdat een Angular applicatie navigeert m.b.v
+de url zal de gebruiker bij het klikken op de back button niet naar het dashboard gaan, maar eerst een aantal keer heen en weer navigeren tussen ‘instellingen’ en ‘profiel’ voordat hij uiteindelijk op het dashboard belandt
+Dat is ongewenst/onverwacht gedrag van de applicatie! Hoe gaan we om met navigeren tussen views
+In een Angular Cordova applicatie kan een eventListener op de terug-knop worden gezet
+javascript document.addEventListener("backbutton", (ev) => { ev.preventDefault(); }, false); Met deze code snippet wordt voorkomen dat heen en weer genavigeerd wordt
+Maar dit is niet genoeg, want nu doet de back button helemaal niks meer
+Hiermee wordt een hardware knop van het device helemaal uitgeschakeld en dat is nogal een rigoreuze beslissing
+Er zijn verschillende manier om dit aan te pakken; We zouden voor elke view kunnen definiëren wat de parent view is
+Klikken op de terug-knop moet de gebruiker dan niet naar de vorige view brengen maar altijd naar de parent
+Dit werkt niet als een pagina vanaf 2 pagina’s bereikbaar is; wat is dan de parent
+Zolang de applicatie een eenvoudige navigatie structuur heeft, waarbij er een dashboard bestaat, overzicht (level 1) pagina’s en detail (level 2) pagina’s, kunnen we voor elke view definiëren welk level het heeft
+In dat geval zijn er 3 mogelijkheden; Als de huidige pagina een detail (level 2) pagina is, gebruik dan de history.back() om uit te zoeken waar de gebruiker vandaan kwam
+Als de huidige pagina een level 1 pagina is, ga dan naar het dashboard
+Als de huidige pagina het dashboard is, vraag de gebruiker dan of hij de applicatie wil afsluiten
+Hiermee kan dan de volgende route logica worden opgesteld; javascript document.addEventListener("backbutton", (ev) => { ev.preventDefault(); historyService.onBack(); }, false); javascript export class HistoryService { onBack(): void { // if page is level 2
+then go back to previous page // else if current page is dashboard
+then open exit app confirm modal // else go to dashboard const currentRoute = getCurrentRoute() if (currentRoute.level > 1) {// current view is a level 2 view history.back(); } else if (currentRoute.default) {// current view is the dashboard this.confirmExitApp(); } else { this.navigateToDefaultView(); } } this.getCurrentRoute(): Route { // this function should return the current route as een object with it's level // this logic goes beyond the scope of this article } confirmExitApp(): void { // this function should open a confirm modal with the question to exit the app // on confirm close the app with navigator.app.exitApp(); // on dismiss close the modal // this logic goes beyond the scope of this article } navigateToDefaultView(): void { // this function should navigate to the dashboard // this logic goes beyond the scope of this article } } Deze logica werkt alleen als het menu alleen level 1 pagina’s en eventueel het dashboard bevat level 2 pagina’s alleen bereikbaar zijn vanaf level 1 pagina’s Een level 2 pagina kan vanaf 2 verschillende level 1 pagina’s bereikbaar zijn, zolang de level 2 pagina maar niet vanaf een andere level 2 pagina bereikbaar is
+Deze eenvoudige navigatie structuur heeft ook als voordeel dat een gebruiker nog begrijpt waar hij zich bevindt
+Als de applicatie level 2, level 3 en misschien zelfs level 4 pagina’s zou hebben, of als een level 3 pagina bereikbaar is vanaf een level 2 pagina die bereikbaar is vanaf een level 4 pagina, dan wordt het moeilijker voor de gebruiker voor te stellen waar in de applicatie hij zich bevindt
+Natuurlijk zullen er situaties zijn waar toch een level 3 pagina bereikbaar is
+Al is het voor de gebruikersbeleving af te raden, zolang de level 2 pagina alleen vanaf de level 3 pagina bereikbaar is met de terug-knop of met een button die van history.back() gebruik maakt, blijft de route logica werken
+State changes en navigeren binnen een modal Voorbeeld 1: De gebruiker gaat zijn wachtwoord aanpassen bij ‘profiel’; De gebruiker klikt in het menu op ‘profiel’ Op de profiel view klikt de gebruiker op een knop ‘wachtwoord aanpassen’ Dan opent een modal met 2 invoervelden om een nieuw wachtwoord in te voeren De gebruiker vult een nieuw wachtwoord in en klikt op een knop ‘verder gaan’ De modal toont dan een scherm waarin hij zijn oude wachtwoord moet invullen ter bevestiging Op dat moment wil de gebruiker toch een ander nieuw wachtwoord kiezen en klikt op de back button van het device De gebruiker verwacht dan dat de modal geopend blijft en de 2 invoervelden om een nieuw wachtwoord in te voeren worden getoond Voorbeeld 2: De gebruiker wil een lijst met aanbiedingen als bulk aanpassen; De gebruiker klikt in het menu op ‘aanbiedingen’ Op de aanbiedingen overzichtsview klikt de gebruiker op een knop ‘aanbiedingen aanpassen’ Dan verandert de state van de view in een ‘edit’ state, waarbij verwijder- en sorteerknopjes verschijnen Op dat moment bedenkt de gebruiker zich en klikt op de terug-knop De gebruiker verwacht dan dat de ‘edit’ state verandert in de ‘view’ state waarmee hij op de pagina terecht kwam Helaas zullen de verwachtingen in beide voorbeelden niet uitkomen en zal de applicatie netjes, zoals bedacht naar het dashboard gaan
+Om dit soort gevallen te kunnen afvangen willen we een lijst bijhouden waarin staat wat er op welk moment moet gebeuren als op de back button wordt geklikt
+Soms zal genavigeerd moeten worden naar een andere view, in andere gevallen moet een bepaalde state veranderen naar de vorige state of moet een modal sluiten
+En ook hier geldt weer dat als je een paar keer tussen 2 states wisselt, dat klikken op de terug-knop niet opnieuw in omgekeerde volgorde tussen de states gaat wisselen
+En nog specifieker; als je op een ‘bewerken’-knop klikt en dan op ‘opslaan’ dan moet de terug-knop niet naar de ‘bewerken’ state gaan, maar de terug functionaliteit uitvoeren die uitgevoerd zou worden voordat je op de ‘bewerken’-knop klikte
+Een ‘history stack’ Door een ‘history stack’ bij te houden kunnen we definiëren dat bijvoorbeeld bij het openen van een modal de stack wordt opgehoogd met een functionaliteit die de modal sluit
+En bij het sluiten van de modal zouden we alles van de stack kunnen verwijderen tot en met de functionaliteit die de modal sluit
+De logica voor de back button wordt uitgebreid met een check of er een history stack bestaat
+Als die bestaat, dan wordt de laatste functionaliteit in de history stack uitgevoerd en dit item wordt vervolgens verwijderd van de stack
+javascript export class HistoryService { private historyStack: HistoryStackItem[] = []; onBack(): void { // if history stack exist, run last callBack and remove this item from stack // else if page is level 2
+then go back to previous page // else if current page is dashboard
+then open exit app confirm modal // else go to dashboard const currentRoute = getCurrentRoute(); if (this.historyStack && this.historyStack.length) { const lastItemOnStack = this.historyStack[this.historyStack.length - 1]; if (lastItemOnStack.popByBackButton) { this.historyStack.pop(); } lastItemOnStack.callback(); } else if (currentRoute.level > 1) {// current view is a level 2 view history.back(); } else if (currentRoute.default) {// current view is the dashboard this.confirmExitApp(); } else { this.navigateToDefaultView(); } } setHistoryStack(callBack): void { this.historyStack.push(this.createHistoryStackItem(callBack, true); } removeHistoryStack(): void { this.historyStack = []; } private createHistoryStackItem(callBack, popByBackButton): HistoryStackItem { return { callBack: callBack, popByBackButton: popByBackButton }; } ..
+} De setHistoryStack kan worden aangeroepen bij het openen van een modal of het veranderen van een state
+Ook kan de ‘history stack’ worden geleegd om ervoor te zorgen dat daarna weer genavigeerd wordt op basis van level n views
+Terug-knop afhandelen is eenvoudig De history service is redelijk eenvoudig en effectief! Hiermee vang je de meeste situaties af, waarin de verwachting bij het klikken op de terug-knop afwijkt van history.back();When I was a young backend developer SOA was hot
+Onderstaande illustratie uit een onderzoek beschrijft precies dat
+Er is aangetoond dat de hoeveelheid stress die gebruikers ervaren bij het gebruik van te trage (mobiele) applicaties ongeveer gelijk staat aan het kijken van een horrorfilm
+Dit voorbeeld laat zien dat juist techneuten even goed invloed uitoefenen op de gebruikerservaring
+Door de performance te verbeteren kun je het gebruik dus een stuk aangenamer maken
+Naast vlotte databases en snel geladen schermen, kun je ook op andere manieren de gebruikerservaring beïnvloeden
+En je hoeft geen doorgewinterde UX-designer of onderzoeker te zijn om dat te doen
+In april dit jaar was er in het CineMec Ede alweer het derde, en uitverkochte, Luminis DevCon event plaats
+Tijdens deze conferentie heb ik verteld hoe je inzicht kan krijgen in het gebruik van je dienst door een gebruiker
+In het verlengde van deze presentatie ga ik hier iets verder in op het online meten van gedrag
+Enkele inzichten zijn snel en eenvoudig te verkrijgen en er zijn tools zijn die daarbij helpen
+Zo kan jij ook beter begrijpen waaróm gebruikers iets (niet) doen
+Ik ga vooral in op de praktische toepassing van deze tooling en biedt wat aanknopingspunten die helpen om zelf een basic analyse te kunnen doen en nuttige inzichten te vergaren
+Mijn presentatie kun je trouwens hier terug kijken
+Meten is weten Eerst nog kort iets over het meten
+Dit is grofweg op te delen in kwantitatief en kwalitatief
+Heel plat gezegd; kwantitatief gaat over de wat-vraag
+Wat gebeurt er en hoe vaak
+Bijvoorbeeld: een specifieke pagina heeft een hoge bounce rate
+Oftewel , die pagina is vaak het eindstation van een bezoek
+Dit kun je achterhalen door een web analytics tool als Google Analytics, de meest bekende
+Kwalitatief daarentegen gaat over het waarom van dit gedrag
+Wat maakt dat die pagina vaak het eindstation is van bezoekers
+Om hier antwoorden op te kunnen geven heb je dus een kwalitatieve metrics tool nodig
+Hieronder geef ik een voorbeeld van een dergelijke tool en enkele meet methodes die hier in naar voren komen
+Het meetinstrument: Hotjar Om iets te meten heb je een meetinstrument nodig
+Nu zijn er naast de web analytics tools in software land steeds meer diensten die kwalitatieve data vastleggen
+Om er maar een aantal te noemen: Visual Website Optimizer, ABTasty, EyeQuant, Hotjar, Crazy Egg, Usabilla en Fibeo
+De tool die ik hiervoor gebruik is Hotjar
+Het fijne van deze toepassing is dat het niet alleen heatmaps van klik- en scroll gedrag maakt maar daarnaast ook inzicht biedt door formulier analyse en schermopnames
+Daarnaast kun je ook eenvoudig polls en surveys inrichten en directe feedback vragen met Incoming, dat nog in beta is
+Er zit veel functionaliteit in voor weinig geld
+De betaalde versies zijn vergeleken met andere tools zeker niet duur
+Tools zoals Crazy Egg richten zich vaak maar op 1 methode voor een hogere prijs
+Er zijn wel kritische noten te vinden over de datakwalitateit vergeleken met web analytics tools
+Daarnaast is het koppelen met tools als Google Analytics niet bepaald plug and play, terwijl daar juist de kracht zit
+Hotjar is ook laagdrempelig omdat het een gratis Basic account biedt waarmee je zo goed als alle functionaliteit tot je beschikking hebt
+De beperking zit hem in het verkeer: de ‘sample rate’ is gelimiteerd op 2000 pageviews per dag, dus het aantal pageviews waarop de data gebaseerd wordt
+En voor recordings is 100 de bovengrens
+Toch voldoende om al iets te gaan meten
+Het opzetten van een account en project is snel gedaan
+Een keer registreren, wat basisgegevens van je website invoeren en een stukje script plaatsen
+Deels afhankelijk van op welk platform je website draait
+Voorbeeld van het stukje script dat je in de code moet plaatsen om Hotjar werkend te krijgen
+Je kunt overigens meerdere websites onderbrengen in 1 account, die dan elk een eigen tracking ID hebben
+Vervolgens check je via de portal of je code werkt en kun je aan de slag
+Verder spreekt deze tool voor een groot deel voor zich
+Er is voor Hotjar uitgebreide documentatie aanwezig
+Hieronder ga ik met name in op de methodes zelf en hoe je hier bevindingen uit kan halen voor het verbeteren van je service
+Heatmaps Heatmaps zijn een visualisatie van interactie zoals klikken en muisbewegingen in een webpagina of een applicatie
+Vaak aangeduid met een kleurverloop van blauw naar rood dat weinig en veel representeert
+Dit kunnen muis click- of muis move-maps zijn, een registratie van respectievelijk kliks en muisbewegingen
+Maar ook scroll maps
+In Hotjar kun je heatmaps aanzetten op specifieke pagina’s en deze laten stoppen als een limiet is bereikt
+Bijvoorbeeld na 1000 geregistreerde views
+Als je de heatmaps eenmaal binnen hebt: hoe moet je deze nu interpreteren
+Wat zeggen die vlekken nou
+Doorgaans zijn er een aantal patronen die te herkennen zijn: Iets is klikbaar maar er wordt niet op geklikt
+Als je knoppen of elementen hebt die niet aangeklikt worden kan aan heel veel zaken liggen en is afhankelijk van de context: worden juist andere zaken veel aangeklikt
+Ziet het er niet klikbaar uit
+Een trend die al een tijdje loopt is dat knoppen nogal plat worden vormgegeven met een outline border
+Ziet er heel stijlvol uit maar grote kans dat men dit niet ziet als een knop
+Is je huisstijl voornamelijk rood / wit
+Vermijd die kleuren voor je belangrijke interacties, pak de meest contrasterende kleur want die valt meer op
+Dit zijn in de praktijk bewezen conventies
+Iets is niet klikbaar maar men klikt er wel degelijk op
+Soms wordt iets vormgegeven alsof het een klikbaar element is omdat het onbedoeld op een button lijkt bijvoorbeeld
+Je ziet in heatmaps terug dat deze elementen aangeklikt worden, echter zit er geen functionaliteit achter
+Zorg ervoor dat deze vorm aangepast wordt om onnodig klikken en daarmee frustratie te voorkomen
+Aan de andere kant: je kunt het juist wel functioneel maken door er interactie aan te koppelen
+Zo zag ik op onze DevCon pagina een klein aantal clicks op een animerend muis icoontje dat aangeeft dat men kan scrollen voor meer inhoud
+Klikken doet echter niks
+Je zou hier dus een scroll anker van kunnen maken
+Ander voorbeeld: bij iets als een artikel overzicht verwacht men vaak dat zowel titel, afbeelding en soms een paar regels tekst als geheel een klikbare link is naar het volledige item
+Beperk daarom niet de interactie tot een titel en ‘lees meer’ link alleen
+Dit is allemaal context afhankelijk natuurlijk en des te belangrijker om dit te meten en toetsen
+Voorbeeld van een heatmap op mobile Scrollmaps Een scrollmap laat zien tot waar op een pagina er wordt gescrold
+In Hotjar is dit weergegeven door een kleurverloop en percentages
+Ook is te zien waar gemiddeld genomen de vouw van een pagina zit
+Overigens, dat ‘above the fold’ de belangrijkste elementen horen te staan is inmiddels achterhaald
+Voor een lange onepager is het soms lastig een scrollmap te genereren als de navigatie met ankers werkt
+Immers werken de links in de navigatie als nieuwe paginas terwijl je in feite naar beneden scrollt
+Als men niet ver genoeg de pagina door scrollt kan dat een paar dingen betekenen: Men haakt af op de inhoud: deze is niet relevant of er staat te veel tekst
+Het helpt om dit te dubbelchecken met recordings die je kunt maken
+Die licht ik verderop toe
+Of richt hiervoor een gerichte poll in op die pagina die op een laagdrempelige manier feedback kan geven
+Houd dit kort en simpel voor de gebruiker
+Men kan ten onrechte denken dat het einde van de pagina is bereikt
+Er is te veel witruime of men heeft geen visuele indicatie van de verdere aanwezige inhoud
+Er zijn tegenwoordig veel pagina’s te zien die royaal van witruimte zijn voorzien maar dat kan dus nadelig werken
+De opbouw van een item wordt onderbroken door iets wat er niet mee te maken heeft
+Bijvoorbeeld een advertentieblok dat over de hele breedte van een blogitem doorloopt
+Formulier analyse Je kunt ook formulieren analyseren door bij te houden hoe deze afgerond worden
+Door een visualisatie kun je zien op welke plekken in een formulier gebruikers afhaken
+Voorbeeld van een form analysis
+Rode cijfers geven lange invultijden of veel correcties aan
+Wat je hier onder andere uit kan halen: Het is te lang, als je veel velden hebt en je gestaag afhakers ziet, is het wellicht nodig groeperingen toe te passen
+Knip het formulier op in een aantal (visueel) logische stappen
+Dat maakt de drempel voor een gebruiker een stuk lager
+Een veld is te complex om in te vullen
+Het is niet helder wat er verwacht wordt in te vullen, of je bent juist te strikt over de juiste notatie
+Denk aan datum notaties, postcodes en de ergste: verplichte informatie vragen van gebruikers die ze niet paraat hebben of doorgaans niet graag geven
+Screen Recordings Om concrete voorbeelden van interactie te zien kun je in Hotjar schermopnames bekijken van bezoekers
+Dit zijn geanonimiseerde screen recordings van interactie die je redelijk goed kunt filteren op pagina’s, devices, browsers, duur enzovoort
+Je kunt deze ook annoteren
+Het voelt wel een beetje voyeuristisch als je dit bekijkt
+Wel goed om in de instellingen keystroke data uit te zetten, anders leg je vast wat gebruikers daadwerkelijk invoeren
+Een valkuil van een screenrecording is dat het nogal aan interpretatie onderhevig is
+Soms zijn er lange pauzes zonder interactie te zien
+Bedenk maar eens wat het zou kunnen betekenen: is deze persoon op het scherm aan het lezen, iets in een ander scherm aan het doen of even naar de wc
+Je ziet veel gebeuren in recordings maar oordeel niet te snel over de intenties van de gebruiker
+Native toepassingen De tool en methodes zoals hierboven beschreven richten zich vooral op websites
+Er zijn steeds meer services die ook in staat zijn soortgelijke metingen op native applicaties te doen
+AB Tasty is al eens genoemd, verder zijn er diensten als App see en UXcam die dit kunnen
+Zelf heb ik met de native metrics iets minder ervaring, maar in feite blijven de methodieken staan
+Succes met inzichten vergaren! Headerfoto door: Caroline Methot on UnsplashAngularJS is a huge framework and already has many performance enhancements built in

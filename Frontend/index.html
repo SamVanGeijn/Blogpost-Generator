@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>De Blogpost Generator™</title>
+  <link rel="stylesheet" type="text/css" media="all" href="css/styles.css">
+  <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+</head>
+
+<body>
+  <div id="w">
+    <h1>De Blogpost Generator™</h1>
+    <p>Selecteer een taal en druk op de knop om een blog van 50 regels te genereren.</p>
+    
+    <select name="language" id="language" >
+      <option value="en">Engels</option>
+      <option value="nl">Nederlands</option>
+    </select>
+    
+    <button id="ghsubmitbtn">Genereer Blog</button>
+    
+    <div id="ghapidata" class="clearfix"></div>
+  </div>
+  <div>
+
+<script type="text/javascript">
+$(function(){
+  $('#ghsubmitbtn').on('click', function(e) {
+    e.preventDefault();
+    $('#ghapidata').html('<div id="loader"><img src="css/loader.gif" alt="loading..."></div>');
+    
+    $("#ghsubmitbtn").attr("disabled", true);
+    var requri = 'https://2eouawh6vb.execute-api.eu-west-3.amazonaws.com/dev/'+$('#language').val();
+    
+    requestJSON(requri, function(json) {
+      $("#ghsubmitbtn").attr("disabled", false);
+      if (json.message == "Not Found" || !json.blog) {
+        $('#ghapidata').html("<h2>Blog genereren mislukt, dat is jammer.</h2>");
+      } else {
+        var blog = json.blog.replace(/(?:\r\n|\r|\n)/g, '<br>');
+        outhtml = '<p>'+blog+'</p></div>';  
+        $('#ghapidata').html(outhtml);
+      }
+    }); // end requestJSON Ajax call
+  }); // end click event handler
+  
+  function requestJSON(url, callback) {
+    $.ajax({
+      headers: { "Accept": "application/json"},
+      url: url,
+      complete: function(xhr) {
+        callback.call(null, xhr.responseJSON);
+      }
+    });
+  }
+});
+</script>
+</body>
+</html>
